@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>빈방 확인 - Dormitory System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <h1>🏠 빈방 확인</h1>
+      <p>현재 이용 가능한 기숙사 호실 현황</p>
+    </header>
+
+    <main class="form-container">
+      <label for="floor-select"><strong>🔽 층 선택:</strong></label>
+      <select id="floor-select">
+        <option value="0" disabled selected>층을 선택하세요</option>
+        <option value="1">1층</option>
+        <option value="2">2층</option>
+        <option value="3">3층</option>
+        <option value="4">4층</option>
+        <option value="5">5층</option>
+        <option value="6">6층</option>
+        <option value="7">7층</option>
+      </select>
+
+      <div class="room-grid" id="room-grid"></div>
+
+      <div class="legend">
+        <p>🟢 사용 가능 | 🔴 사용 중</p>
+      </div>
+
+      <p style="text-align: center; margin-top: 20px">
+        <a href="index.html">← 메인 페이지로 돌아가기</a>
+      </p>
+    </main>
+
+    <footer class="main-footer">© 2025 Dormitory Management System</footer>
+
+    <script>
+      const floorData = {
+        2: [
+          "201",
+          "202",
+          "203",
+          "204",
+          "205",
+          "206",
+          "207",
+          "208",
+          "209",
+          "210",
+        ],
+        3: [
+          "301",
+          "302",
+          "303",
+          "304",
+          "305",
+          "306",
+          "307",
+          "308",
+          "309",
+          "310",
+          "311",
+          "312",
+          "313",
+          "314",
+          "315",
+        ],
+        4: [
+          "401",
+          "402",
+          "403",
+          "404",
+          "405",
+          "406",
+          "407",
+          "408",
+          "409",
+          "410",
+          "411",
+          "412",
+          "413",
+          "414",
+          "415",
+        ],
+        5: [
+          "501",
+          "502",
+          "503",
+          "504",
+          "505",
+          "506",
+          "507",
+          "508",
+          "509",
+          "510",
+          "511",
+          "512",
+          "513",
+          "514",
+          "515",
+        ],
+        6: [
+          "601",
+          "602",
+          "603",
+          "604",
+          "605",
+          "606",
+          "607",
+          "608",
+          "609",
+          "610",
+          "611",
+          "612",
+          "613",
+          "614",
+          "615",
+        ],
+        7: [
+          "701",
+          "702",
+          "703",
+          "704",
+          "705",
+          "706",
+          "707",
+          "708",
+          "709",
+          "710",
+          "711",
+          "712",
+          "713",
+          "714",
+          "715",
+        ],
+      };
+
+      const occupiedRooms = ["202", "203", "305", "404", "505", "603"];
+
+      document
+        .getElementById("floor-select")
+        .addEventListener("change", function () {
+          const selectedFloor = this.value;
+          const roomGrid = document.getElementById("room-grid");
+          roomGrid.innerHTML = "";
+
+          floorData[selectedFloor].forEach((room) => {
+            const isOccupied = occupiedRooms.includes(room);
+            const div = document.createElement("div");
+            div.className = "room " + (isOccupied ? "occupied" : "available");
+            div.innerHTML = `${room}호<br>${isOccupied ? "🔴" : "🟢"}`;
+            roomGrid.appendChild(div);
+          });
+        });
+    </script>
+  </body>
+</html>
