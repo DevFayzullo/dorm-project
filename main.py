@@ -57,7 +57,7 @@ def room_status():
         rooms=rooms,
         occupied_rooms=occupied_rooms
     )
-#            ewrgegtgegteg4
+
 @app.route('/students-list')
 def students_list():
     return render_template("studentsList.html")
