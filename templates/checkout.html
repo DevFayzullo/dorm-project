@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>퇴실 신청 - Dormitory System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header>
+      <h1>🏃‍♂️ 퇴실 신청</h1>
+      <p>기숙사 퇴실을 위한 신청서를 작성해 주세요</p>
+    </header>
+
+    <div class="form-section">
+      <h2>퇴실 신청서</h2>
+      <form>
+        <label for="studentName">이름</label>
+        <input type="text" id="studentName" name="studentName" required />
+
+        <label for="studentId">학번</label>
+        <input type="text" id="studentId" name="studentId" required />
+
+        <label for="roomNumber">호실</label>
+        <select id="roomNumber" name="roomNumber" required>
+          <option value="">호실 선택</option>
+          <option value="101">101호</option>
+          <option value="102">102호</option>
+          <option value="201">201호</option>
+          <option value="202">202호</option>
+          <option value="301">301호</option>
+        </select>
+
+        <label for="checkoutDate">퇴실 예정일</label>
+        <input type="date" id="checkoutDate" name="checkoutDate" required />
+
+        <label for="reason">퇴실 사유</label>
+        <textarea id="reason" name="reason" rows="4" required></textarea>
+
+        <button type="submit">신청 제출</button>
+      </form>
+      <p style="text-align: center; margin-top: 20px">
+        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+      </p>
+    </div>
+
+    <footer>© 2025 Dormitory Management System</footer>
+  </body>
+</html>

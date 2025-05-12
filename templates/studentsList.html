@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>학생 관리</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header>
+      <h1>👨‍🎓 학생 관리</h1>
+    </header>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>학번</th>
+            <th>학과</th>
+            <th>입실 상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>김민준</td>
+            <td>20231001</td>
+            <td>컴퓨터공학과</td>
+            <td>입실 중</td>
+          </tr>
+          <tr>
+            <td>이서연</td>
+            <td>20231002</td>
+            <td>경영학과</td>
+            <td>퇴실</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

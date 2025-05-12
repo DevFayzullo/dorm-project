@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>학생 대시보드 - KBU Dormitory System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header class="main-header">
+      <h1>👨‍🎓 학생 대시보드</h1>
+      <p>입실 / 퇴실 상태 및 신청 내역 확인</p>
+    </header>
+
+    <main class="form-container">
+      <div class="card">
+        <h2>학생 정보</h2>
+        <p><strong>이름:</strong> 김민수</p>
+        <p><strong>학번:</strong> 20251234</p>
+        <p><strong>상태:</strong> ✅ 입실 중</p>
+      </div>
+
+      <div class="card">
+        <h2>기숙사 정보</h2>
+        <p><strong>호실:</strong> 203호</p>
+        <p><strong>입실일:</strong> 2025-03-01</p>
+        <p><strong>퇴실 예정일:</strong> 2025-06-30</p>
+      </div>
+
+      <div class="button-group">
+        <a href="checkout.html" class="btn secondary">📝 퇴실 신청</a>
+        <a href="#" class="btn info">👤 프로필 보기</a>
+        <a href="index.html" class="btn primary">← 로그아웃</a>
+      </div>
+    </main>
+
+    <footer class="main-footer">© 2025 KBU Dormitory System</footer>
+  </body>
+</html>

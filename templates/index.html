@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>기숙사 입퇴실 관리 시스템</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header class="main-header">
+      <h1>🏫 기숙사 입퇴실 온라인 관리 시스템</h1>
+      <p>편리하고 신속한 기숙사 출입 절차를 제공합니다</p>
+    </header>
+
+     <main class="form-container">
+       <center>
+        <h2>무엇을 하시겠습니까?</h2><br><br>
+        <div class="button-group">
+            <a href="{{ url_for('login') }}" class="btn primary">🔐 로그인</a>
+            <a href="{{ url_for('room_status') }}" class="btn info">🏠 빈방 확인</a>
+            <a href="{{ url_for('checkin') }}" class="btn secondary">📝 입실 신청</a>
+            <a href="{{ url_for('checkout') }}" class="btn tertiary">🏃‍♂️ 퇴실 신청</a>
+        </div>
+       </center>
+    </main>
+
+    <footer class="main-footer">
+      © 2025 Dormitory Management System - All rights reserved.
+    </footer>
+  </body>
+</html>
