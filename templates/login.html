@@ -13,30 +13,33 @@
     </header>
 
     <main class="form-container">
-      <form id="loginForm">
-        <label for="role">역할 선택:</label>
-        <select id="role" required>
-          <option value="">-- 선택하세요 --</option>
-          <option value="student">학생</option>
-          <option value="admin">관리자</option>
-        </select>
+      <form id="loginForm" method="post">
+  <label for="role">역할 선택:</label>
+  <select id="role" name="role" required>
+    <option value="">-- 선택하세요 --</option>
+    <option value="student">학생</option>
+    <option value="admin">관리자</option>
+  </select>
 
-        <label for="username">아이디:</label>
-        <input
-          type="text"
-          id="username"
-          placeholder="아이디를 입력하세요"
-          required />
+  <label for="userid">아이디:</label>
+  <input
+    type="text"
+    id="userid"
+    name="userid"
+    placeholder="아이디를 입력하세요"
+    required />
 
-        <label for="password">비밀번호:</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="비밀번호를 입력하세요"
-          required />
+  <label for="password">비밀번호:</label>
+  <input
+    type="password"
+    id="password"
+    name="password"
+    placeholder="비밀번호를 입력하세요"
+    required />
 
-        <button type="submit" class="btn primary">로그인</button>
-      </form>
+  <button type="submit" class="btn primary">로그인</button>
+</form>
+
 
       <p style="text-align: center; margin-top: 20px">
         <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
@@ -44,21 +47,5 @@
     </main>
 
     <footer class="main-footer">© 2025 Dormitory Management System</footer>
-
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const role = document.getElementById("role").value;
-          if (role === "admin") {
-            window.location.href = "dashboard_admin.html";
-          } else if (role === "student") {
-            window.location.href = "dashboard_student.html";
-          } else {
-            alert("역할을 선택해주세요.");
-          }
-        });
-    </script>
   </body>
 </html>
