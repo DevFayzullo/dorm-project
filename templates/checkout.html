@@ -16,10 +16,13 @@
       <h2>퇴실 신청서</h2>
       <form>
         <label for="studentName">이름</label>
-        <input type="text" id="studentName" name="studentName" required />
+        <input type="text" id="studentName" name="studentName" value="{{ current_user.userid }}" required readonly/>
 
         <label for="studentId">학번</label>
-        <input type="text" id="studentId" name="studentId" required />
+        <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly/>
+
+        <label for="phone">전화번호</label>
+        <input type="text" id="phone" name="phone" value="{{ current_user.userid }}" required />
 
         <label for="roomNumber">호실</label>
         <select id="roomNumber" name="roomNumber" required>

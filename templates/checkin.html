@@ -22,13 +22,13 @@
         <!-- Step 1 -->
         <div class="form-step active">
           <label for="name">이름</label>
-          <input type="text" id="name" name="name" required />
+          <input type="text" id="name" name="name" value="{{ current_user.userid }}" required readonly/>
 
           <label for="studentId">학번</label>
-          <input type="text" id="studentId" name="studentId" required />
+          <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly/>
 
           <label for="phone">전화번호</label>
-          <input type="tel" id="phone" name="phone" required />
+          <input type="tel" id="phone" name="phone" value="{{ current_user.userid }}" required />
 
           <button type="button" class="next-btn">다음</button>
         </div>
