@@ -47,12 +47,18 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    if current_user.is_authenticated and current_user.admin:text = "📊 관리자 대시보드"
+    elif current_user.is_authenticated and not current_user.admin:text = "👨‍🎓 학생 대시보드"
+    else:text = "🔐 로그인"
+    return render_template("index.html", text=text)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+    if current_user.is_authenticated and current_user.admin:
+        return redirect(url_for('dashboard_admin'))
+    elif current_user.is_authenticated and not current_user.admin:
+        return redirect(url_for('dashboard_student'))
+
     if request.method == "POST":
         role = request.form.get('role')
         userid = request.form.get('userid')

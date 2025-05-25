@@ -16,7 +16,9 @@
        <center>
         <h2>무엇을 하시겠습니까?</h2><br><br>
         <div class="button-group">
-            <a href="{{ url_for('login') }}" class="btn primary">🔐 로그인</a>
+            <a href="{{ url_for('login') }}" class="btn primary" style="margin-right: 3px;">
+                {{ text }}
+            </a>
             <a href="{{ url_for('room_status') }}" class="btn info">🏠 빈방 확인</a>
             <a href="{{ url_for('checkin') }}" class="btn secondary">📝 입실 신청</a>
             <a href="{{ url_for('checkout') }}" class="btn tertiary">🏃‍♂️ 퇴실 신청</a>

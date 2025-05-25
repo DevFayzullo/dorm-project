@@ -11,9 +11,8 @@
       <h2>KBU Dormitory</h2>
       <nav>
 <!--        <a href="dashboard_admin.html">📊 대시보드</a>-->
-        <a href="checkin.html">📝 입실 신청</a>
-        <a href="roomstatus.html">🏠 빈방 확인</a>
-        <a href="studentsList.html">👤 학생 관리</a>
+        <a href="{{ url_for('room_status') }}">🏠 빈방 확인</a>
+        <a href="{{ url_for('students_list') }}">👤 학생 관리</a>
         <a href="{{ url_for('logout') }}">🔒 로그아웃</a>
       </nav>
     </div>
@@ -25,23 +24,24 @@
       </header>
 
       <div class="dashboard-cards">
-        <div class="card">
-          <h3>총 등록 학생 수</h3>
-          <p>128명</p>
-        </div>
-        <div class="card">
-          <h3>현재 입실 중</h3>
-          <p>97명</p>
-        </div>
-        <div class="card">
-          <h3>빈방 수</h3>
-          <p>22호</p>
-        </div>
-        <div class="card">
-          <h3>대기 중 신청</h3>
-          <p>9건</p>
-        </div>
+<!--        <div class="card">-->
+<!--          <h3>총 등록 학생 수</h3>-->
+<!--          <p>128명</p>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--          <h3>현재 입실 중</h3>-->
+<!--          <p>97명</p>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--          <h3>빈방 수</h3>-->
+<!--          <p>22호</p>-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--          <h3>대기 중 신청</h3>-->
+<!--          <p>9건</p>-->
+<!--        </div>-->
       </div>
+        <br><br>
             <p style="text-align: center; margin-top: 20px">
         <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
       </p>
