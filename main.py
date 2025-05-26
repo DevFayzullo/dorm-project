@@ -91,6 +91,24 @@ def logout():
 @app.route('/checkin')
 @login_required
 def checkin():
+    if request.method == 'POST':
+        # Get form data
+        name = request.form.get('name')
+        student_id = request.form.get('studentId')
+        phone = request.form.get('phone')
+        date = request.form.get('date')
+        room = request.form.get('room')
+
+        # For debugging or storing
+        print(f"Name: {name}")
+        print(f"Student ID: {student_id}")
+        print(f"Phone: {phone}")
+        print(f"Date: {date}")
+        print(f"Room: {room}")
+
+        # ✅ Save to database or process as needed
+        # e.g., save_checkin(name, student_id, phone, date, room)
+
     return render_template("checkin.html")
 
 @app.route('/checkout')
