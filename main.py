@@ -27,6 +27,19 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
+
+def get_available_rooms(date):
+    rooms_data = {
+        "2025-05-01": ["101", "102", "105"],
+        "2025-05-02": ["103", "104"],
+        "2025-05-03": [],
+    }
+    return rooms_data.get(date, [])
+
+
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -41,6 +54,9 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    full_name = db.Column(db.String(150), nullable=False)
+    room = db.Column(db.Integer, nullable=False)
+    phone_number = db.Column(db.String(30), nullable=False)
     admin = db.Column(db.Boolean, nullable=False)
 
 
@@ -88,33 +104,95 @@ def logout():
     flash('You were logged out!')
     return redirect(url_for('login'))
 
-@app.route('/checkin')
+@app.route('/checkin', methods=['GET', 'POST'])
 @login_required
 def checkin():
-    if request.method == 'POST':
-        # Get form data
-        name = request.form.get('name')
-        student_id = request.form.get('studentId')
-        phone = request.form.get('phone')
-        date = request.form.get('date')
-        room = request.form.get('room')
+    if request.method == 'GET':
+        return render_template('checkin.html', step=1)
 
-        # For debugging or storing
-        print(f"Name: {name}")
-        print(f"Student ID: {student_id}")
-        print(f"Phone: {phone}")
-        print(f"Date: {date}")
-        print(f"Room: {room}")
+    step = int(request.form.get('step', 1))
 
-        # ✅ Save to database or process as needed
-        # e.g., save_checkin(name, student_id, phone, date, room)
+    if step == 1:
+        name = request.form['name']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+        return render_template('checkin.html', step=2,
+                               name=name, studentId=studentId, phone=phone,
+                               date='', available_rooms=[])
 
-    return render_template("checkin.html")
+    elif step == 2:
+        name = request.form['name']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+        date = request.form['date']
+        room = request.form.get('room', '')
 
-@app.route('/checkout')
+        available_rooms = get_available_rooms(date)
+        return render_template('checkin.html', step=3,
+                               name=name, studentId=studentId, phone=phone,
+                               date=date, room=room)
+
+    elif step == 3:
+        # Final submission: Save data
+        name = request.form['name']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+        date = request.form['date']
+        room = request.form['room']
+
+        # Save to DB or any other processing here
+
+        return redirect(url_for('index'))
+
+@app.route('/checkout', methods=['GET', 'POST'])
 @login_required
 def checkout():
-    return render_template("checkout.html")
+    if request.method == 'GET':
+        return render_template('checkout.html', step=1)
+
+    step = int(request.form.get('step', 1))
+
+    if step == 1:
+        studentName = request.form['studentName']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+
+        return render_template('checkout.html',
+                               step=2,
+                               studentName=studentName,
+                               studentId=studentId,
+                               phone=phone,
+                               roomNumber='', checkoutDate='')
+
+    elif step == 2:
+        studentName = request.form['studentName']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+        roomNumber = request.form['roomNumber']
+        checkoutDate = request.form['checkoutDate']
+
+        return render_template('checkout.html',
+                               step=3,
+                               studentName=studentName,
+                               studentId=studentId,
+                               phone=phone,
+                               roomNumber=roomNumber,
+                               checkoutDate=checkoutDate)
+
+    elif step == 3:
+        # Final submission: handle the data
+        studentName = request.form['studentName']
+        studentId = request.form['studentId']
+        phone = request.form['phone']
+        roomNumber = request.form['roomNumber']
+        checkoutDate = request.form['checkoutDate']
+        reason = request.form['reason']
+
+        # Save to DB or handle it
+        print('퇴실 신청 완료:', studentName, studentId, phone, roomNumber, checkoutDate, reason)
+
+        return redirect(url_for('index'))
+
 
 @app.route('/dashboard-student')
 @login_required
@@ -163,7 +241,7 @@ def admin_db():
         hashed_password = bcrypt.generate_password_hash("password123#").decode("utf-8")
         user = User.query.filter_by(userid="2200000").first()
         if not user:
-            new_user = User(userid="2200000", password=hashed_password, admin=True)
+            new_user = User(userid="2200000", password=hashed_password, full_name="홍길동", room=330, phone_number="010-1234-5678", admin=True)
             db.session.add(new_user)
             db.session.commit()
             print("Admin user created.")

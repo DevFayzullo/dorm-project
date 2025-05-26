@@ -15,165 +15,70 @@
       <h1>기숙사 입실 신청 페이지</h1>
     </header>
 
-    <div class="form-container">
-      <div class="progress-bar">
-        <div class="step active">① 정보 입력</div>
-        <div class="step">② 입실 정보</div>
-        <div class="step">③ 확인 및 제출</div>
-      </div>
+<!-- checkin_form.html -->
+<form method="post">
+  {% if step == 1 %}
+    <h2>① 정보 입력</h2>
 
-      <form id="checkinForm" method="post">
-        <!-- Step 1 -->
-        <div class="form-step active">
-          <label for="name">이름</label>
-          <input type="text" id="name" name="name" value="{{ current_user.userid }}" required readonly/>
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" value="{{ current_user.full_name }}" required readonly />
 
-          <label for="studentId">학번</label>
-          <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly/>
+    <label for="studentId">학번</label>
+    <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly />
 
-          <label for="phone">전화번호</label>
-          <input type="tel" id="phone" name="phone" value="{{ current_user.userid }}" required />
+    <label for="phone">전화번호</label>
+    <input type="tel" id="phone" name="phone" value="{{ phone or current_user.phone_number }}" required />
 
-          <button type="button" class="next-btn">다음</button>
-        </div>
+    <input type="hidden" name="step" value="1" />
+    <button type="submit">다음</button>
 
-        <!-- Step 2 -->
-        <div class="form-step">
-          <label for="date">입실 희망일</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-            onchange="checkAvailableRooms()" />
+  {% elif step == 2 %}
+    <h2>② 입실 정보</h2>
 
-          <label for="room">호실 선택</label>
-          <select id="room" name="room" required>
-            <option value="">날짜를 선택하세요</option>
-          </select>
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="hidden" name="studentId" value="{{ studentId }}">
+    <input type="hidden" name="phone" value="{{ phone }}">
 
-          <button type="button" class="prev-btn">이전</button>
-          <button type="button" class="next-btn">다음</button>
-        </div>
+    <label for="date">신청날짜</label>
+    <input type="date" id="date" name="date" value="{{ date }}" required />
 
-        <!-- Step 3 -->
-        <div class="form-step">
-          <h3>정보 확인</h3>
-          <p><strong>이름:</strong> <span id="confirmName"></span></p>
-          <p><strong>학번:</strong> <span id="confirmStudentId"></span></p>
-          <p><strong>전화번호:</strong> <span id="confirmPhone"></span></p>
-          <p><strong>입실일:</strong> <span id="confirmDate"></span></p>
-          <p><strong>선택한 호실:</strong> <span id="confirmRoom"></span></p>
+    <label for="room">호실 선택</label>
+    <select id="room" name="room" required>
+      {% if available_rooms %}
+        {% for room in available_rooms %}
+          <option value="{{ room }}" {% if room == selected_room %}selected{% endif %}>{{ room }}호</option>
+        {% endfor %}
+      {% else %}
+        <option value="">빈 방이 없습니다</option>
+      {% endif %}
+    </select>
 
-          <button type="button" class="prev-btn">이전</button>
-          <button type="submit" class="submit-btn">제출</button>
-        </div>
-      </form>
-      <p style="text-align: center; margin-top: 20px">
-        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
-      </p>
-    </div>
+    <input type="hidden" name="step" value="2" />
+    <button type="submit">다음</button>
 
-    <div class="modal" id="successModal" style="display: none">
-      <div class="modal-content">
-        <h2>신청 완료!</h2>
-        <p>입실 신청이 정상적으로 완료되었습니다.</p>
-        <button onclick="closeModal()">확인</button>
-      </div>
-    </div>
+  {% elif step == 3 %}
+    <h2>③ 확인 및 제출</h2>
 
-    <footer class="main-footer">
-      © 2025 Dormitory Check-in System. All rights reserved.
-    </footer>
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="hidden" name="studentId" value="{{ studentId }}">
+    <input type="hidden" name="phone" value="{{ phone }}">
+    <input type="hidden" name="date" value="{{ date }}">
+    <input type="hidden" name="room" value="{{ room }}">
 
-    <script>
-      const form = document.getElementById("checkinForm");
-      const steps = document.querySelectorAll(".form-step");
-      const progress = document.querySelectorAll(".progress-bar .step");
-      let currentStep = 0;
+    <p><strong>이름:</strong> {{ name }}</p>
+    <p><strong>학번:</strong> {{ studentId }}</p>
+    <p><strong>전화번호:</strong> {{ phone }}</p>
+    <p><strong>신청날짜:</strong> {{ date }}</p>
+    <p><strong>선택한 호실:</strong> {{ room }}호</p>
 
-      function showStep(step) {
-        steps.forEach((el, i) => {
-          el.classList.toggle("active", i === step);
-          progress[i].classList.toggle("active", i <= step);
-        });
-      }
+    <input type="hidden" name="step" value="3" />
+    <button type="submit">제출</button>
+  {% endif %}
+</form>
 
-      document.querySelectorAll(".next-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (currentStep === 0 || currentStep === 1) {
-            currentStep++;
-            if (currentStep === 2) {
-              // Fill confirmation data
-              document.getElementById("confirmName").textContent =
-                document.getElementById("name").value;
-              document.getElementById("confirmStudentId").textContent =
-                document.getElementById("studentId").value;
-              document.getElementById("confirmPhone").textContent =
-                document.getElementById("phone").value;
-              document.getElementById("confirmDate").textContent =
-                document.getElementById("date").value;
-              document.getElementById("confirmRoom").textContent =
-                document.getElementById("room").value;
-            }
-            showStep(currentStep);
-          }
-        });
-      });
+<p style="text-align: center; margin-top: 20px">
+  <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+</p>
 
-      document.querySelectorAll(".prev-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-          }
-        });
-      });
-
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        document.getElementById("successModal").style.display = "block";
-      });
-
-      function closeModal() {
-        document.getElementById("successModal").style.display = "none";
-        form.reset();
-        currentStep = 0;
-        showStep(currentStep);
-      }
-
-      function checkAvailableRooms() {
-        const roomSelect = document.getElementById("room");
-        const selectedDate = document.getElementById("date").value;
-
-        const availableRooms = {
-          "2025-05-01": ["101", "102", "105"],
-          "2025-05-02": ["103", "104"],
-          "2025-05-03": [],
-        };
-
-        roomSelect.innerHTML = "";
-
-        if (!availableRooms[selectedDate]) {
-          roomSelect.innerHTML =
-            '<option value="">해당 날짜의 정보가 없습니다</option>';
-          return;
-        }
-
-        const rooms = availableRooms[selectedDate];
-        if (rooms.length === 0) {
-          roomSelect.innerHTML = '<option value="">빈 방이 없습니다</option>';
-        } else {
-          rooms.forEach((room) => {
-            const option = document.createElement("option");
-            option.value = room;
-            option.textContent = room + "호";
-            roomSelect.appendChild(option);
-          });
-        }
-      }
-
-      showStep(currentStep);
-    </script>
   </body>
 </html>

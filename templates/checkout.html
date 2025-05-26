@@ -16,40 +16,72 @@
       <p>기숙사 퇴실을 위한 신청서를 작성해 주세요</p>
     </header>
 
-    <div class="form-section">
-      <h2>퇴실 신청서</h2>
-      <form>
-        <label for="studentName">이름</label>
-        <input type="text" id="studentName" name="studentName" value="{{ current_user.userid }}" required readonly/>
+<!-- checkout_form.html -->
+<form method="post">
+  {% if step == 1 %}
+    <h2>① 기본 정보</h2>
 
-        <label for="studentId">학번</label>
-        <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly/>
+    <label for="studentName">이름</label>
+    <input type="text" id="studentName" name="studentName" value="{{ current_user.full_name }}" required readonly />
 
-        <label for="phone">전화번호</label>
-        <input type="text" id="phone" name="phone" value="{{ current_user.userid }}" required />
+    <label for="studentId">학번</label>
+    <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly />
 
-        <label for="roomNumber">호실</label>
-        <select id="roomNumber" name="roomNumber" required>
-          <option value="">호실 선택</option>
-          <option value="101">101호</option>
-          <option value="102">102호</option>
-          <option value="201">201호</option>
-          <option value="202">202호</option>
-          <option value="301">301호</option>
-        </select>
+    <label for="phone">전화번호</label>
+    <input type="text" id="phone" name="phone" value="{{ phone or current_user.phone_number }}" required />
 
-        <label for="checkoutDate">퇴실 예정일</label>
-        <input type="date" id="checkoutDate" name="checkoutDate" required />
+    <input type="hidden" name="step" value="1" />
+    <button type="submit">다음</button>
 
-        <label for="reason">퇴실 사유</label>
-        <textarea id="reason" name="reason" rows="4" required></textarea>
+  {% elif step == 2 %}
+    <h2>② 퇴실 정보</h2>
 
-        <button type="submit">신청 제출</button>
-      </form>
-      <p style="text-align: center; margin-top: 20px">
-        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
-      </p>
-    </div>
+    <input type="hidden" name="studentName" value="{{ studentName }}">
+    <input type="hidden" name="studentId" value="{{ studentId }}">
+    <input type="hidden" name="phone" value="{{ phone }}">
+
+    <label for="roomNumber">호실</label>
+    <select id="roomNumber" name="roomNumber" required>
+      <option value="">호실 선택</option>
+      {% for room in ['101', '102', '201', '202', '301'] %}
+        <option value="{{ room }}" {% if room == roomNumber %}selected{% endif %}>{{ room }}호</option>
+      {% endfor %}
+    </select>
+
+    <label for="checkoutDate">퇴실 예정일</label>
+    <input type="date" id="checkoutDate" name="checkoutDate" value="{{ checkoutDate }}" required />
+
+    <input type="hidden" name="step" value="2" />
+    <button type="submit">다음</button>
+
+  {% elif step == 3 %}
+    <h2>③ 퇴실 사유 및 확인</h2>
+
+    <input type="hidden" name="studentName" value="{{ studentName }}">
+    <input type="hidden" name="studentId" value="{{ studentId }}">
+    <input type="hidden" name="phone" value="{{ phone }}">
+    <input type="hidden" name="roomNumber" value="{{ roomNumber }}">
+    <input type="hidden" name="checkoutDate" value="{{ checkoutDate }}">
+
+    <label for="reason">퇴실 사유</label>
+    <textarea id="reason" name="reason" rows="4" required>{{ reason or '' }}</textarea>
+
+    <h3>입력 정보 확인</h3>
+    <p><strong>이름:</strong> {{ studentName }}</p>
+    <p><strong>학번:</strong> {{ studentId }}</p>
+    <p><strong>전화번호:</strong> {{ phone }}</p>
+    <p><strong>호실:</strong> {{ roomNumber }}호</p>
+    <p><strong>퇴실 예정일:</strong> {{ checkoutDate }}</p>
+
+    <input type="hidden" name="step" value="3" />
+    <button type="submit">제출</button>
+  {% endif %}
+</form>
+
+<p style="text-align: center; margin-top: 20px">
+  <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+</p>
+
 
     <footer>© 2025 Dormitory Management System</footer>
   </body>
