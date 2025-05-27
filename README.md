@@ -70,12 +70,12 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 
 2. 필요한 패키지 설치
 ```bash
-pip install flask
+pip install -r requirements.txt
 ```
 
 3. Flask 앱 실행
 ```bash
-python app.py
+python main.py
 ```
 
 4. 브라우저에서 확인
@@ -88,4 +88,4 @@ http://localhost:5000
 ## 🙋‍♂️ 제작자
 
 - 프론트엔드: [DevFayzullo]
-- 백엔드: [친구 이름]
+- 백엔드: [MuzaffarSharofitdinov]
