@@ -14,9 +14,9 @@ body {
 }
 
 a {
-    color: #007BFF;           /* Blue link color */
-    text-decoration: none;    /* Removes underline */
-    font-weight: bold;        /* Makes it bold */
+  color: #007bff; /* Blue link color */
+  text-decoration: none; /* Removes underline */
+  font-weight: bold; /* Makes it bold */
 }
 
 /* Header */
@@ -241,6 +241,13 @@ tr:hover {
 
 .modal-content button:hover {
   background: #2563eb;
+}
+
+/* Profile Area */
+.profile-area {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 /* Responsive Styles */

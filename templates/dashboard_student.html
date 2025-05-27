@@ -12,8 +12,17 @@
   </head>
   <body>
     <header class="main-header">
-      <h1>👨‍🎓 학생 대시보드</h1>
-      <p>입실 / 퇴실 상태 및 신청 내역 확인</p>
+      <div class="logo-title">
+        <h1>🏠 KBU Dorm</h1>
+        <p>학생 대시보드</p>
+      </div>
+      <div class="profile-area">
+        <a href="{{ url_for('index') }}" class="btn info">🏠 메인으로</a>
+        <a href="{{ url_for('logout') }}" class="btn secondary">🚪 로그아웃</a>
+        <a href="{{ url_for('dashboard_student') }}" class="profile-btn"
+          >👤 김민수</a
+        >
+      </div>
     </header>
 
     <main class="form-container">
@@ -41,6 +50,12 @@
       </p>
     </main>
 
-    <footer class="main-footer">© 2025 KBU Dormitory System</footer>
+      <div class="button-group">
+        <a href="{{ url_for('checkout') }}" class="btn secondary"
+          >📝 퇴실 신청</a
+        >
+        <a href="#" class="btn info">👤 프로필 보기</a>
+      </div>
+    </main>
   </body>
 </html>
