@@ -29,9 +29,19 @@
     <header>
       <h1>👨‍🎓 학생 관리</h1>
     </header>
+
+    <div class="search-container" style="text-align: center; margin: 20px 0">
+      <input
+        type="text"
+        id="studentSearch"
+        placeholder="학번을 입력하세요"
+        class="form-control"
+        style="max-width: 300px; display: inline-block" />
+    </div>
+
     <div class="table-container">
-      <table>
-        <thead>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
           <tr>
             <th>이름</th>
             <th>학번</th>
@@ -59,8 +69,26 @@
       </p>
     </div>
 
-    <footer class="main-footer">
+    <footer class="main-footer" style="text-align: center; margin-top: 40px">
       © 2025 Dormitory Management System - All rights reserved.
     </footer>
+
+    <script>
+      document
+        .getElementById("studentSearch")
+        .addEventListener("keyup", function () {
+          const filter = this.value.trim();
+          const rows = document.querySelectorAll("tbody tr");
+
+          rows.forEach((row) => {
+            const studentId = row.cells[1].textContent;
+            if (studentId.includes(filter)) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+    </script>
   </body>
 </html>
