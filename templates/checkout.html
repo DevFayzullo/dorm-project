@@ -17,6 +17,9 @@
     </header>
 
 <!-- checkout_form.html -->
+{% comment %} <div class="form-container">
+  <h1>퇴실 신청</h1>
+  <p>기숙사 퇴실을 위한 신청서를 작성해 주세요</p> {% endcomment %}
 <form method="post">
   {% if step == 1 %}
     <h2>① 기본 정보</h2>
@@ -81,8 +84,11 @@
 <p style="text-align: center; margin-top: 20px">
   <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
 </p>
+{% comment %} </div> {% endcomment %}
 
-
-    <footer>© 2025 Dormitory Management System</footer>
+    <footer class="main-footer">
+      © 2025 Dormitory Management System - All rights reserved.
+    </footer>
   </body>
+
 </html>

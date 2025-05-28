@@ -25,6 +25,7 @@ header {
   color: white;
   padding: 1.5rem 2rem;
   text-align: center;
+  position: relative;
 }
 
 h1 {
@@ -245,9 +246,23 @@ tr:hover {
 
 /* Profile Area */
 .profile-area {
+  position: absolute;
+  top: 60px;
+  right: 10px;
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.profile-area a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.profile-area a:hover {
+  color: #facc15;
+  text-decoration: underline;
 }
 
 /* Responsive Styles */
