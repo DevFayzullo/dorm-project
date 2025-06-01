@@ -1,13 +1,10 @@
-import os
-from math import trunc
-
-from flask import Flask, render_template, redirect, url_for, jsonify, request, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_bcrypt import Bcrypt
 import logging
-from asgiref.wsgi import WsgiToAsgi
-from sqlalchemy import false
+import os
+
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_bcrypt import Bcrypt
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_sqlalchemy import SQLAlchemy
 
 logging.basicConfig(level=logging.DEBUG)
 uvicorn_ws_enabled = os.getenv('UVICORN_WS', 'on') == 'on'

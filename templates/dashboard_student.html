@@ -33,7 +33,7 @@
       </div>
       <div class="profile-area">
         <a href="{{ url_for('dashboard_student') }}" class="profile-btn"
-          >👤 김민수</a
+          >👤 {{ current_user.full_name }}</a
         >
         <a href="{{ url_for('logout') }}">🔒 로그아웃</a>
       </div>
