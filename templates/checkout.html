@@ -34,7 +34,6 @@
     <input type="text" id="phone" name="phone" value="{{ phone or current_user.phone_number }}" required />
 
     <input type="hidden" name="step" value="1" />
-    <br><br>
     <button type="submit">다음</button>
 
   {% elif step == 2 %}
@@ -56,7 +55,6 @@
     <input type="date" id="checkoutDate" name="checkoutDate" value="{{ checkoutDate }}" required />
 
     <input type="hidden" name="step" value="2" />
-    <br><br>
     <button type="submit">다음</button>
 
   {% elif step == 3 %}
@@ -68,6 +66,9 @@
     <input type="hidden" name="roomNumber" value="{{ roomNumber }}">
     <input type="hidden" name="checkoutDate" value="{{ checkoutDate }}">
 
+    <label for="reason">퇴실 사유</label>
+    <textarea id="reason" name="reason" rows="4" required>{{ reason or '' }}</textarea>
+
     <h3>입력 정보 확인</h3>
     <p><strong>이름:</strong> {{ studentName }}</p>
     <p><strong>학번:</strong> {{ studentId }}</p>
@@ -75,11 +76,7 @@
     <p><strong>호실:</strong> {{ roomNumber }}호</p>
     <p><strong>퇴실 예정일:</strong> {{ checkoutDate }}</p>
 
-    <label for="reason">퇴실 사유</label>
-    <textarea id="reason" name="reason" rows="4" required>{{ reason or '' }}</textarea>
-
     <input type="hidden" name="step" value="3" />
-    <br><br>
     <button type="submit">제출</button>
   {% endif %}
 </form>

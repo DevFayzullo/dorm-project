@@ -148,6 +148,8 @@ def checkout():
         return render_template('checkout.html', step=1)
 
     step = int(request.form.get('step', 1))
+    goto = request.args.get('goto')
+    print(step, goto)
 
     if step == 1:
         studentName = request.form['studentName']
