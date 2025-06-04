@@ -36,7 +36,6 @@ def get_available_rooms(date):
 
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -55,6 +54,12 @@ class User(db.Model, UserMixin):
     room = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(30), nullable=False)
     admin = db.Column(db.Boolean, nullable=False)
+
+class Room(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    room_number = db.Column(db.String(10), nullable=False)
+    floor = db.Column(db.Integer, nullable=False)
+    is_occupied = db.Column(db.Boolean, default=False)
 
 
 
@@ -208,19 +213,15 @@ def dashboard_admin():
 @app.route('/room-status', methods=['GET'])
 @login_required
 def room_status():
-    floor_data = {
-        2: ["201", "202", "203", "204", "205", "206", "207", "208", "209", "210"],
-        3: ["301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315"],
-        4: ["401", "402", "403", "404", "405", "406", "407", "408", "409", "410", "411", "412", "413", "414", "415"],
-        5: ["501", "502", "503", "504", "505", "506", "507", "508", "509", "510", "511", "512", "513", "514", "515"],
-        6: ["601", "602", "603", "604", "605", "606", "607", "608", "609", "610", "611", "612", "613", "614", "615"],
-        7: ["701", "702", "703", "704", "705", "706", "707", "708", "709", "710", "711", "712", "713", "714", "715"]
-    }
-
-    occupied_rooms = ["202", "203", "305", "404", "505", "603"]
-
     floor = request.args.get('floor', type=int)
-    rooms = floor_data.get(floor) if floor else None
+
+    rooms = None
+    occupied_rooms = []
+
+    if floor:
+        room_objs = Room.query.filter_by(floor=floor).all()
+        rooms = [room.room_number for room in room_objs]
+        occupied_rooms = [room.room_number for room in room_objs if room.is_occupied]
 
     return render_template(
         'roomstatus.html',

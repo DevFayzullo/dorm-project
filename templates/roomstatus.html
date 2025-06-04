@@ -16,45 +16,42 @@
       <p>현재 이용 가능한 기숙사 호실 현황</p>
     </header>
 
-    <main class="form-container">
-      <form method="GET" action="{{ url_for('room_status') }}">
-        <label for="floor-select"><strong>🔽 층 선택:</strong></label>
-<form method="GET" action="{{ url_for('room_status') }}">
-  <select id="floor-select" name="floor" onchange="this.form.submit()">
-    {% if selected_floor %}
-      <option selected disabled>{{ selected_floor }}층</option>
-    {% else %}
-      <option selected disabled>층을 선택하세요</option>
-    {% endif %}
-    {% for fl in range(1, 8) %}
-      <option value="{{ fl }}">{{ fl }}층</option>
-    {% endfor %}
-  </select>
-</form>
-
-      {% if rooms %}
-        <div class="room-grid">
-          {% for room in rooms %}
-            <div class="room {{ 'occupied' if room in occupied_rooms else 'available' }}">
-              {{ room }}호<br>{{ "🔴" if room in occupied_rooms else "🟢" }}
-            </div>
-          {% endfor %}
-        </div>
-       {% else %}
-        <br><br>
-        <center>
-          데이터 없음!
-        </center>
+<main class="form-container">
+  <form method="GET" action="{{ url_for('room_status') }}">
+    <label for="floor-select"><strong>🔽 층 선택:</strong></label>
+    <select id="floor-select" name="floor" onchange="this.form.submit()">
+      {% if selected_floor %}
+        <option selected disabled>{{ selected_floor }}층</option>
+      {% else %}
+        <option selected disabled>층을 선택하세요</option>
       {% endif %}
+      {% for fl in range(2, 8) %}
+        <option value="{{ fl }}">{{ fl }}층</option>
+      {% endfor %}
+    </select>
+  </form>
 
-      <div class="legend">
-        <p>🟢 사용 가능 | 🔴 사용 중</p>
-      </div>
+  {% if rooms %}
+    <div class="room-grid">
+      {% for room in rooms %}
+        <div class="room {{ 'occupied' if room in occupied_rooms else 'available' }}">
+          {{ room }}호<br>{{ "🔴" if room in occupied_rooms else "🟢" }}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <br><br>
+    <center>데이터 없음!</center>
+  {% endif %}
 
-      <p style="text-align: center; margin-top: 20px">
-        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
-      </p>
-    </main>
+  <div class="legend">
+    <p>🟢 사용 가능 | 🔴 사용 중</p>
+  </div>
+
+  <p style="text-align: center; margin-top: 20px">
+    <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+  </p>
+</main>
 
     <footer class="main-footer">
       © 2025 Dormitory Management System - All rights reserved.
