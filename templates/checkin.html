@@ -16,6 +16,7 @@
     </header>
 
 <!-- checkin_form.html -->
+ <div class="form-container">
 <form method="post">
   {% if step == 1 %}
     <h2>① 정보 입력</h2>
@@ -79,6 +80,8 @@
 <p style="text-align: center; margin-top: 20px">
   <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
 </p>
+
+</div>
 
     <footer class="main-footer">
       © 2025 Dormitory Management System - All rights reserved.
