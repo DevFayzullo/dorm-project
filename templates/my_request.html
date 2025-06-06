@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<h2>퇴실 신청 목록</h2>
-
+{% if my_request and request %}
+<h2>{{ my_request.request_type }} 신청 목록</h2>
 <p>{{ my_request.request_id }}</p>
 <p>{{ my_request.status }}</p>
 
@@ -34,6 +34,15 @@
     {% endif %}
   </tr>
 </table>
+<form method="POST">
+    <input type="hidden" name="delete" value="delete" />
+    <button type="submit">🗑️ 삭제 🗑</button>
+<!--<button type="submit" onclick="window.location.href='/my-request?delete=delete'">-->
 
+<!--</button>-->
+</form>
+{% else %}
+<p>No requests...!</p>
+{% endif %}
 </body>
 </html>

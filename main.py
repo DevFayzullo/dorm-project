@@ -1,6 +1,9 @@
 import logging
 import os
 import datetime
+from os import abort
+
+from sqlalchemy.sql import Delete
 
 today = datetime.date.today().isoformat()
 
@@ -64,6 +67,7 @@ class Requests(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     room_number = db.Column(db.String(10), nullable=False)
     checkout_date = db.Column(db.String(10), nullable=False)
+    request_type = db.Column(db.String(10), nullable=False)
     reason = db.Column(db.Text, nullable=False)
     submitted_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
@@ -72,6 +76,7 @@ class MyRequest(db.Model):
     student_id = db.Column(db.String(20), nullable=False)
     request_id = db.Column(db.String(15), unique=True, nullable=False)
     status = db.Column(db.String(10), nullable=False)
+    request_type = db.Column(db.String(10), nullable=False)
 
 def already(user_id):
     return (Requests.query.filter_by(student_id=user_id).first() is not None or MyRequest.query.filter_by(student_id=user_id).first() is not None)
@@ -139,15 +144,47 @@ def checkin():
         room = request.form['room']
         return render_template('checkin.html', step=3,floors=floors,room=room,date=today)
     elif step == 3:
-        name = request.form['name']
+        studentName = request.form['name']
         studentId = request.form['studentId']
         phone = request.form['phone']
         date = request.form['date']
         room = request.form['room']
+        request_type = request.form['checkin']
 
-        print('입실 신청 완료:', name, studentId, phone, date, room)
+        last_request = db.session.query(func.max(Requests.request_id)).scalar()
 
-        return redirect(url_for('index'))
+        if last_request:
+            new_id = int(last_request) + 1
+        else:
+            new_id = 1
+
+        formatted_request_id = f"REQ-{new_id:05d}"
+
+        request_obj = Requests(
+            request_id=formatted_request_id,
+            student_name=studentName,
+            student_id=studentId,
+            phone=phone,
+            room_number=room,
+            checkout_date=date,
+            request_type=request_type,
+            reason=""
+        )
+
+        my_request = MyRequest(
+            student_id=studentId,
+            request_id=formatted_request_id,
+            status="Pending...",
+            request_type=request_type
+        )
+
+        db.session.add(request_obj)
+        db.session.add(my_request)
+        db.session.commit()
+
+        flash(f'Request submitted successfully! Your Request ID: {formatted_request_id}', 'success')
+        return redirect(url_for('my_request'))
+
     return None
 
 
@@ -171,9 +208,10 @@ def checkout():
         studentName = request.form['studentName']
         studentId = request.form['studentId']
         phone = request.form['phone']
-        roomNumber = request.form['roomNumber']
+        room = request.form['room']
         date = request.form['date']
         reason = request.form['reason']
+        request_type = request.form['checkout']
 
         last_request = db.session.query(func.max(Requests.request_id)).scalar()
 
@@ -189,15 +227,17 @@ def checkout():
             student_name=studentName,
             student_id=studentId,
             phone=phone,
-            room_number=roomNumber,
+            room_number=room,
             checkout_date=date,
+            request_type=request_type,
             reason=reason
         )
 
         my_request = MyRequest(
             student_id=studentId,
             request_id=formatted_request_id,
-            status="Pending..."
+            status="Pending...",
+            request_type=request_type
         )
 
         db.session.add(request_obj)
@@ -205,7 +245,7 @@ def checkout():
         db.session.commit()
 
         flash(f'Request submitted successfully! Your Request ID: {formatted_request_id}', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('my_request'))
     return None
 
 @app.route('/dashboard-student')
@@ -248,7 +288,7 @@ def students_list():
 def available_rooms(floor):
     rooms = Room.query.filter_by(floor=floor).filter(Room.current_occupants < Room.capacity).all()
     room_numbers = [room.room_number for room in rooms]
-    return jsonify({'floor': floor, 'available_rooms': room_numbers})
+    return jsonify({'rooms': room_numbers})
 
 @app.route('/requests')
 @login_required
@@ -256,11 +296,28 @@ def requests():
     _requests = Requests.query.order_by(Requests.submitted_at.desc()).all()
     return render_template('requests.html', requests=_requests)
 
-@app.route('/my-request')
+@app.route('/my-request', methods=['GET', 'POST'])
 @login_required
 def my_request():
-    _myrequest = MyRequest.query.filter_by(student_id=current_user.userid).first()
-    _request = Requests.query.filter_by(student_id=current_user.userid).order_by(Requests.id.desc()).first()
+    _myrequest = ""
+    _request = ""
+    try:
+        _myrequest = MyRequest.query.filter_by(student_id=current_user.userid).first()
+        _request = Requests.query.filter_by(student_id=current_user.userid).order_by(Requests.id.desc()).first()
+    except:
+        pass
+
+    if request.method == "POST":
+        delete = request.form["delete"]
+        if delete:
+            req = Requests.query.filter_by(student_id=current_user.userid).first()
+            my_req = MyRequest.query.filter_by(student_id=current_user.userid).first()
+            if req and my_req:
+                db.session.delete(req)
+                db.session.delete(my_req)
+                db.session.commit()
+        return redirect(url_for('my_request'))
+
     return render_template('my_request.html', my_request=_myrequest, request=_request)
 
 def admin_db():

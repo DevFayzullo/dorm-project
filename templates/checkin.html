@@ -87,6 +87,7 @@ document.getElementById('floorSelect').addEventListener('change', function() {
     <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
     <input type="hidden" name="date" value="{{ date }}">
     <input type="hidden" name="room" value="{{ room }}">
+    <input type="hidden" name="checkin" value="입실">
 
     <p style="margin: 10px 0;"><strong>이름:</strong> {{ current_user.full_name }}</p>
     <p style="margin: 10px 0;"><strong>학번:</strong> {{ current_user.userid }}</p>
