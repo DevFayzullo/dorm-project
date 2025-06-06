@@ -53,18 +53,18 @@
 
   {% elif step == 3 %}
     <h2>③ 확인 및 제출</h2>
-
+    <br>
     <input type="hidden" name="name" value="{{ current_user.full_name }}">
     <input type="hidden" name="studentId" value="{{ current_user.userid }}">
     <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
     <input type="hidden" name="date" value="{{ date }}">
     <input type="hidden" name="room" value="{{ room }}">
 
-    <p><strong>이름:</strong> {{ current_user.full_name }}</p>
-    <p><strong>학번:</strong> {{ current_user.userid }}</p>
-    <p><strong>전화번호:</strong> {{ current_user.phone_number }}</p>
-    <p><strong>신청날짜:</strong> {{ date }}</p>
-    <p><strong>선택한 호실:</strong> {{ room }}호</p>
+    <p style="margin: 10px 0;"><strong>이름:</strong> {{ current_user.full_name }}</p>
+    <p style="margin: 10px 0;"><strong>학번:</strong> {{ current_user.userid }}</p>
+    <p style="margin: 10px 0;"><strong>전화번호:</strong> {{ current_user.phone_number }}</p>
+    <p style="margin: 10px 0;"><strong>신청날짜:</strong> {{ date }}</p>
+    <p style="margin: 10px 0;"><strong>선택한 호실:</strong> {{ room }}호</p>
 
     <input type="hidden" name="step" value="3" />
     <button type="submit">제출</button>
