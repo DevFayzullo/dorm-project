@@ -53,7 +53,8 @@ class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     room_number = db.Column(db.String(10), nullable=False)
     floor = db.Column(db.Integer, nullable=False)
-    is_occupied = db.Column(db.Boolean, default=False)
+    capacity = db.Column(db.Integer, nullable=False)
+    current_occupants = db.Column(db.Integer, default=0)
 
 class Requests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
