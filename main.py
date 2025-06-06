@@ -1,13 +1,15 @@
 import logging
 import os
-import datetime as t
+import datetime
 
-today = t.date.today().isoformat()
+today = datetime.date.today().isoformat()
 
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
+
+from asgiref.wsgi import WsgiToAsgi
 
 logging.basicConfig(level=logging.DEBUG)
 uvicorn_ws_enabled = os.getenv('UVICORN_WS', 'on') == 'on'
@@ -108,33 +110,21 @@ def checkin():
     step = int(request.form.get('step', 1))
 
     if step == 1:
-        name = request.form['name']
-        studentId = request.form['studentId']
-        phone = request.form['phone']
-        return render_template('checkin.html', step=2,
-                               name=name, studentId=studentId, phone=phone)
-
+        return render_template('checkin.html', step=2, date=today)
     elif step == 2:
-        name = request.form['name']
-        studentId = request.form['studentId']
-        phone = request.form['phone']
-        room = request.form.get('room', '')
-
-        return render_template('checkin.html', step=3,
-                               name=name, studentId=studentId, phone=phone,
-                               date=today, room=room)
-
+        room = request.form['room']
+        return render_template('checkin.html', step=3,room=room,date=today)
     elif step == 3:
-        # Final submission: Save data
         name = request.form['name']
         studentId = request.form['studentId']
         phone = request.form['phone']
         date = request.form['date']
         room = request.form['room']
 
-        # Save to DB or any other processing here
+        print('입실 신청 완료:', name, studentId, phone, date, room)
 
         return redirect(url_for('index'))
+    return None
 
 
 @app.route('/checkout', methods=['GET', 'POST'])
@@ -147,28 +137,9 @@ def checkout():
     step = int(request.form.get('step', 1))
 
     if step == 1:
-        studentName = request.form['studentName']
-        studentId = request.form['studentId']
-        phone = request.form['phone']
-
-        return render_template('checkout.html',
-                               step=2,
-                               studentName=studentName,
-                               studentId=studentId,
-                               phone=phone)
-
+        return render_template('checkout.html',step=2, date=today)
     elif step == 2:
-        studentName = request.form['studentName']
-        studentId = request.form['studentId']
-        phone = request.form['phone']
-
-        return render_template('checkout.html',
-                               step=3,
-                               studentName=studentName,
-                               studentId=studentId,
-                               phone=phone,
-                               date=today)
-
+        return render_template('checkout.html',step=3,date=today)
     elif step == 3:
         studentName = request.form['studentName']
         studentId = request.form['studentId']
@@ -180,6 +151,7 @@ def checkout():
         print('퇴실 신청 완료:', studentName, studentId, phone, roomNumber, date, reason)
 
         return redirect(url_for('index'))
+    return None
 
 @app.route('/dashboard-student')
 @login_required
@@ -231,7 +203,7 @@ def admin_db():
         else:
             print("Admin user already exists.")
 
-
+# asgi_app = WsgiToAsgi(app)
 
 if __name__ == '__main__':
     with app.app_context():

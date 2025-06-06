@@ -28,7 +28,7 @@
     <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly />
 
     <label for="phone">전화번호</label>
-    <input type="tel" id="phone" name="phone" value="{{ phone or current_user.phone_number }}" required />
+    <input type="tel" id="phone" name="phone" value="{{ current_user.phone_number }}" required />
 
     <input type="hidden" name="step" value="1" />
     <button type="submit">다음</button>
@@ -36,22 +36,16 @@
   {% elif step == 2 %}
     <h2>② 입실 정보</h2>
 
-    <input type="hidden" name="name" value="{{ name }}">
-    <input type="hidden" name="studentId" value="{{ studentId }}">
-    <input type="hidden" name="phone" value="{{ phone }}">
+    <input type="hidden" name="name" value="{{ current_user.full_name }}">
+    <input type="hidden" name="studentId" value="{{ current_user.userid }}">
+    <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
 
     <label for="date">신청날짜</label>
     <input type="date" id="date" name="date" value="{{ date }}" required readonly/>
 
     <label for="room">호실 선택</label>
     <select id="room" name="room" required>
-      {% if available_rooms %}
-        {% for room in available_rooms %}
-          <option value="{{ room }}" {% if room == selected_room %}selected{% endif %}>{{ room }}호</option>
-        {% endfor %}
-      {% else %}
-        <option value="">빈 방이 없습니다</option>
-      {% endif %}
+      <option value="330" >330</option>
     </select>
 
     <input type="hidden" name="step" value="2" />
@@ -60,15 +54,15 @@
   {% elif step == 3 %}
     <h2>③ 확인 및 제출</h2>
 
-    <input type="hidden" name="name" value="{{ name }}">
-    <input type="hidden" name="studentId" value="{{ studentId }}">
-    <input type="hidden" name="phone" value="{{ phone }}">
+    <input type="hidden" name="name" value="{{ current_user.full_name }}">
+    <input type="hidden" name="studentId" value="{{ current_user.userid }}">
+    <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
     <input type="hidden" name="date" value="{{ date }}">
     <input type="hidden" name="room" value="{{ room }}">
 
-    <p><strong>이름:</strong> {{ name }}</p>
-    <p><strong>학번:</strong> {{ studentId }}</p>
-    <p><strong>전화번호:</strong> {{ phone }}</p>
+    <p><strong>이름:</strong> {{ current_user.full_name }}</p>
+    <p><strong>학번:</strong> {{ current_user.userid }}</p>
+    <p><strong>전화번호:</strong> {{ current_user.phone_number }}</p>
     <p><strong>신청날짜:</strong> {{ date }}</p>
     <p><strong>선택한 호실:</strong> {{ room }}호</p>
 

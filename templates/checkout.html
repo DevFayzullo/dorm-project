@@ -31,7 +31,7 @@
     <input type="text" id="studentId" name="studentId" value="{{ current_user.userid }}" required readonly />
 
     <label for="phone">전화번호</label>
-    <input type="text" id="phone" name="phone" value="{{ phone or current_user.phone_number }}" required />
+    <input type="text" id="phone" name="phone" value="{{ current_user.phone_number }}" required />
 
     <input type="hidden" name="step" value="1" />
   <br><br>
@@ -40,9 +40,9 @@
   {% elif step == 2 %}
     <h2>② 퇴실 정보</h2>
 
-    <input type="hidden" name="studentName" value="{{ studentName }}">
-    <input type="hidden" name="studentId" value="{{ studentId }}">
-    <input type="hidden" name="phone" value="{{ phone }}">
+    <input type="hidden" name="studentName" value="{{ current_user.full_name }}">
+    <input type="hidden" name="studentId" value="{{ current_user.userid }}">
+    <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
 
     <label for="date">신청날짜</label>
     <input type="date" id="date" name="date" value="{{ date }}" required readonly/>
@@ -57,18 +57,18 @@
   {% elif step == 3 %}
     <h2>③ 퇴실 사유 및 확인</h2>
 
-    <input type="hidden" name="studentName" value="{{ studentName }}">
-    <input type="hidden" name="studentId" value="{{ studentId }}">
-    <input type="hidden" name="phone" value="{{ phone }}">
-    <input type="hidden" name="roomNumber" value="{{ roomNumber }}">
+    <input type="hidden" name="studentName" value="{{ current_user.full_name }}">
+    <input type="hidden" name="studentId" value="{{ current_user.userid }}">
+    <input type="hidden" name="phone" value="{{ current_user.phone_number }}">
+    <input type="hidden" name="roomNumber" value="{{ current_user.room }}">
     <input type="hidden" name="date" value="{{ date }}">
-
+    <br>
     <h3>입력 정보 확인</h3>
-    <p><strong>이름:</strong> {{ studentName }}</p>
-    <p><strong>학번:</strong> {{ studentId }}</p>
-    <p><strong>전화번호:</strong> {{ phone }}</p>
-    <p><strong>호실:</strong> {{ roomNumber }}호</p>
-    <p><strong>신청날짜:</strong> {{ checkoutDate }}</p>
+    <p><strong>이름:</strong> {{ current_user.full_name }}</p>
+    <p><strong>학번:</strong> {{ current_user.userid }}</p>
+    <p><strong>전화번호:</strong> {{ current_user.phone_number }}</p>
+    <p><strong>호실:</strong> {{ current_user.room }}호</p>
+    <p><strong>신청날짜:</strong> {{ date }}</p>
 
     <label for="reason">퇴실 사유</label>
     <textarea id="reason" name="reason" rows="4" required>{{ reason or '' }}</textarea>
