@@ -31,7 +31,7 @@
     <input type="tel" id="phone" name="phone" value="{{ current_user.phone_number }}" required />
 
     <input type="hidden" name="step" value="1" />
-    <button type="submit">다음</button>
+    <button type="submit" name="direction" value="next">다음</button>
 
   {% elif step == 2 %}
     <h2>② 입실 정보</h2>
@@ -77,7 +77,8 @@ document.getElementById('floorSelect').addEventListener('change', function() {
 </script>
 
     <input type="hidden" name="step" value="2" />
-    <button type="submit">다음</button>
+    <button type="submit" name="direction" value="back">이전</button>
+    <button type="submit" name="direction" value="next">다음</button>
 
   {% elif step == 3 %}
     <h2>③ 확인 및 제출</h2>
@@ -96,7 +97,8 @@ document.getElementById('floorSelect').addEventListener('change', function() {
     <p style="margin: 10px 0;"><strong>선택한 호실:</strong> {{ room }}호</p>
 
     <input type="hidden" name="step" value="3" />
-    <button type="submit">제출</button>
+    <button type="submit" name="direction" value="back">이전</button>
+    <button type="submit" name="direction" value="next">제출</button>
   {% endif %}
 </form>
 
