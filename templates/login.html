@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>로그인 - Dormitory System</title>
+    <title>로그인 - KBU Dormitory Management System</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}" />
@@ -24,11 +24,91 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: url("{{ url_for('static', filename='campus_bg.jpeg') }}")
+          no-repeat center center fixed;
+        background-size: cover;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .main-header {
+        text-align: center;
+        color: #003366;
+        padding-top: 30px;
+      }
+
+      .main-header h1 {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+      }
+
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.94);
+        max-width: 420px;
+        margin: 40px auto;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .form-container label {
+        font-weight: 500;
+        margin-top: 12px;
+      }
+
+      .form-container input,
+      .form-container select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      .btn.primary {
+        width: 100%;
+        padding: 10px;
+        background-color: #004085;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+      }
+
+      .btn.primary:hover {
+        background-color: #003366;
+      }
+
+      .main-footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #ffffff;
+        text-shadow: 1px 1px 2px #000;
+        font-size: 0.9rem;
+      }
+
+      a {
+        color: #004085;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
     <header class="main-header">
+      <img
+        src="{{ url_for('static', filename='kbu_logo.png') }}"
+        alt="KBU 로고"
+        style="max-height: 80px; margin-bottom: 10px" />
       <h1>🔐 로그인</h1>
-      <p>관리자 및 학생 로그인 포털</p>
+      <p>경복대학교 기숙사 로그인 포털</p>
     </header>
 
     <main class="form-container">
@@ -55,17 +135,17 @@
           name="password"
           placeholder="비밀번호를 입력하세요"
           required />
-        <br><br>
+
         <button type="submit" class="btn primary">로그인</button>
       </form>
 
-      <p style="text-align: center; margin-top: 20px">
+      <p class="text-center mt-3">
         <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
       </p>
     </main>
 
     <footer class="main-footer">
-      © 2025 Dormitory Management System - All rights reserved.
+      © 2025 경복대학교 Dormitory Management System - All rights reserved.
     </footer>
   </body>
 </html>
