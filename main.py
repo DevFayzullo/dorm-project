@@ -1,5 +1,8 @@
 import logging
 import os
+import datetime as t
+
+today = t.date.today().isoformat()
 
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_bcrypt import Bcrypt
@@ -23,16 +26,6 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
-
-
-def get_available_rooms(date):
-    rooms_data = {
-        "2025-05-01": ["101", "102", "105"],
-        "2025-05-02": ["103", "104"],
-        "2025-05-03": [],
-    }
-    return rooms_data.get(date, [])
 
 
 
@@ -109,8 +102,8 @@ def logout():
 @app.route('/checkin', methods=['GET', 'POST'])
 @login_required
 def checkin():
-    if request.method == 'GET':
-        return render_template('checkin.html', step=1)
+    if request.method == "GET":
+        return render_template('checkout.html', step=1)
 
     step = int(request.form.get('step', 1))
 
@@ -119,20 +112,17 @@ def checkin():
         studentId = request.form['studentId']
         phone = request.form['phone']
         return render_template('checkin.html', step=2,
-                               name=name, studentId=studentId, phone=phone,
-                               date='', available_rooms=[])
+                               name=name, studentId=studentId, phone=phone)
 
     elif step == 2:
         name = request.form['name']
         studentId = request.form['studentId']
         phone = request.form['phone']
-        date = request.form['date']
         room = request.form.get('room', '')
 
-        available_rooms = get_available_rooms(date)
         return render_template('checkin.html', step=3,
                                name=name, studentId=studentId, phone=phone,
-                               date=date, room=room)
+                               date=today, room=room)
 
     elif step == 3:
         # Final submission: Save data
@@ -146,15 +136,15 @@ def checkin():
 
         return redirect(url_for('index'))
 
+
 @app.route('/checkout', methods=['GET', 'POST'])
 @login_required
 def checkout():
-    if request.method == 'GET':
+
+    if request.method == "GET":
         return render_template('checkout.html', step=1)
 
     step = int(request.form.get('step', 1))
-    goto = request.args.get('goto')
-    print(step, goto)
 
     if step == 1:
         studentName = request.form['studentName']
@@ -165,38 +155,31 @@ def checkout():
                                step=2,
                                studentName=studentName,
                                studentId=studentId,
-                               phone=phone,
-                               roomNumber='', checkoutDate='')
+                               phone=phone)
 
     elif step == 2:
         studentName = request.form['studentName']
         studentId = request.form['studentId']
         phone = request.form['phone']
-        roomNumber = request.form['roomNumber']
-        checkoutDate = request.form['checkoutDate']
 
         return render_template('checkout.html',
                                step=3,
                                studentName=studentName,
                                studentId=studentId,
                                phone=phone,
-                               roomNumber=roomNumber,
-                               checkoutDate=checkoutDate)
+                               date=today)
 
     elif step == 3:
-        # Final submission: handle the data
         studentName = request.form['studentName']
         studentId = request.form['studentId']
         phone = request.form['phone']
         roomNumber = request.form['roomNumber']
-        checkoutDate = request.form['checkoutDate']
+        date = request.form['date']
         reason = request.form['reason']
 
-        # Save to DB or handle it
-        print('퇴실 신청 완료:', studentName, studentId, phone, roomNumber, checkoutDate, reason)
+        print('퇴실 신청 완료:', studentName, studentId, phone, roomNumber, date, reason)
 
         return redirect(url_for('index'))
-
 
 @app.route('/dashboard-student')
 @login_required
