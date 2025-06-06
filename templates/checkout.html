@@ -35,7 +35,7 @@
 
     <input type="hidden" name="step" value="1" />
   <br><br>
-    <button type="submit">다음</button>
+    <button type="submit" name="direction" value="next">다음</button>
 
   {% elif step == 2 %}
     <h2>② 퇴실 정보</h2>
@@ -52,7 +52,9 @@
 
     <input type="hidden" name="step" value="2" />
   <br><br>
-    <button type="submit">다음</button>
+    <button type="submit" name="direction" value="back">이전</button>
+  <br><br>
+    <button type="submit" name="direction" value="next">다음</button>
 
   {% elif step == 3 %}
     <h2>③ 퇴실 사유 및 확인</h2>
@@ -76,7 +78,9 @@
 
     <input type="hidden" name="step" value="3" />
   <br><br>
-    <button type="submit">제출</button>
+    <button type="submit" name="direction" value="back">이전</button>
+  <br><br>
+    <button type="submit" name="direction" value="next">제출</button>
   {% endif %}
 </form>
 

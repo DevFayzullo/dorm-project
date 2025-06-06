@@ -205,11 +205,16 @@ def checkout():
         return render_template('checkout.html', step=1)
 
     step = int(request.form.get('step', 1))
+    direction = request.form.get('direction', 'next')
 
-    if step == 1:
-        return render_template('checkout.html',step=2, date=today)
-    elif step == 2:
-        return render_template('checkout.html',step=3,date=today)
+    if step == 1 and direction == "next":
+        return render_template('checkout.html', step=2,date=today)
+    elif step == 2 and direction == "back":
+        return render_template('checkout.html', step=1,date=today)
+    elif step == 2 and direction == "next":
+        return render_template('checkout.html', step=3,date=today)
+    elif step == 3 and direction == "back":
+        return render_template('checkout.html', step=2,date=today)
     elif step == 3:
         studentName = request.form['studentName']
         studentId = request.form['studentId']
