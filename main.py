@@ -138,7 +138,7 @@ def checkin():
 
     step = int(request.form.get('step', 1))
     direction = request.form.get('direction', 'next')
-    print(direction, step)
+
     if step == 1 and direction == "next":
         return render_template('checkin.html', step=2,floors=floors,date=today)
     elif step == 2 and direction == "back":
@@ -149,7 +149,7 @@ def checkin():
     elif step == 3 and direction == "back":
         room = request.form['room']
         return render_template('checkin.html', step=2,floors=floors,room=room,date=today)
-    elif step == 3 and direction == "next":
+    elif step == 3:
         studentName = request.form['name']
         studentId = request.form['studentId']
         phone = request.form['phone']
@@ -338,10 +338,10 @@ def admin_db():
         else:
             print("Admin user already exists.")
 
-asgi_app = WsgiToAsgi(app)
+# asgi_app = WsgiToAsgi(app)
 
-# if __name__ == '__main__':
-#     with app.app_context():
-#         db.create_all()
-#     admin_db()
-#     app.run(host="0.0.0.0")
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    admin_db()
+    app.run(host="0.0.0.0")
