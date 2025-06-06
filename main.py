@@ -223,16 +223,14 @@ def dashboard_admin():
 @app.route('/room-status', methods=['GET'])
 @login_required
 def room_status():
+    # Qavat raqamini olish (masalan: 2–7)
     floor = request.args.get('floor', type=int)
-
     rooms = None
     occupied_rooms = []
-
     if floor:
-        room_objs = Room.query.filter_by(floor=floor).all()
+        room_objs = Room.query.filter_by(floor=floor).order_by(Room.room_number).all()
         rooms = [room.room_number for room in room_objs]
-        occupied_rooms = [room.room_number for room in room_objs if room.is_occupied]
-
+        occupied_rooms = [room.room_number for room in room_objs if room.current_occupants >= room.capacity]
     return render_template(
         'roomstatus.html',
         selected_floor=floor,
@@ -248,9 +246,9 @@ def students_list():
 @app.route('/available_rooms/<int:floor>')
 @login_required
 def available_rooms(floor):
-    rooms = Room.query.filter_by(floor=floor, is_occupied=False).all()
+    rooms = Room.query.filter_by(floor=floor).filter(Room.current_occupants < Room.capacity).all()
     room_numbers = [room.room_number for room in rooms]
-    return jsonify({'rooms': room_numbers})
+    return jsonify({'floor': floor, 'available_rooms': room_numbers})
 
 @app.route('/requests')
 @login_required
