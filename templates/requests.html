@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>퇴실 신청 목록</h2>
+<table border="1">
+  <tr>
+    <th>이름</th>
+    <th>학번</th>
+    <th>전화번호</th>
+    <th>호실</th>
+    <th>퇴실 예정일</th>
+    <th>사유</th>
+    <th>신청 시간</th>
+  </tr>
+  {% for request in requests %}
+  <tr>
+    <td>{{ request.student_name }}</td>
+    <td>{{ request.student_id }}</td>
+    <td>{{ request.phone }}</td>
+    <td>{{ request.room_number }}</td>
+    <td>{{ request.checkout_date }}</td>
+    <td>{{ request.reason }}</td>
+    <td>{{ request.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

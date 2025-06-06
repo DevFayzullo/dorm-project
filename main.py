@@ -8,6 +8,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash, jso
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 
 from asgiref.wsgi import WsgiToAsgi
 
@@ -39,8 +40,6 @@ def load_user(user_id):
 def not_found(e):
     return render_template("404.html")
 
-
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.String(30), nullable=False)
@@ -56,7 +55,25 @@ class Room(db.Model):
     floor = db.Column(db.Integer, nullable=False)
     is_occupied = db.Column(db.Boolean, default=False)
 
+class Requests(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    request_id = db.Column(db.String(15), unique=True, nullable=False)
+    student_name = db.Column(db.String(100), nullable=False)
+    student_id = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    room_number = db.Column(db.String(10), nullable=False)
+    checkout_date = db.Column(db.String(10), nullable=False)
+    reason = db.Column(db.Text, nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+class MyRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.String(20), nullable=False)
+    request_id = db.Column(db.String(15), unique=True, nullable=False)
+    status = db.Column(db.String(10), nullable=False)
+
+def already(user_id):
+    return (Requests.query.filter_by(student_id=user_id).first() is not None or MyRequest.query.filter_by(student_id=user_id).first() is not None)
 
 @app.route('/')
 def index():
@@ -107,6 +124,9 @@ def checkin():
     floors = db.session.query(Room.floor).distinct().all()
     floors = sorted([f[0] for f in floors])
 
+    if already(current_user.userid):
+        return redirect(url_for("index"))
+
     if request.method == 'GET':
         return render_template('checkin.html', step=1, floors=floors)
 
@@ -134,6 +154,9 @@ def checkin():
 @login_required
 def checkout():
 
+    if already(current_user.userid):
+        return redirect(url_for("index"))
+
     if request.method == "GET":
         return render_template('checkout.html', step=1)
 
@@ -151,8 +174,36 @@ def checkout():
         date = request.form['date']
         reason = request.form['reason']
 
-        print('퇴실 신청 완료:', studentName, studentId, phone, roomNumber, date, reason)
+        last_request = db.session.query(func.max(Requests.request_id)).scalar()
 
+        if last_request:
+            new_id = int(last_request) + 1
+        else:
+            new_id = 1
+
+        formatted_request_id = f"REQ-{new_id:05d}"
+
+        request_obj = Requests(
+            request_id=formatted_request_id,
+            student_name=studentName,
+            student_id=studentId,
+            phone=phone,
+            room_number=roomNumber,
+            checkout_date=date,
+            reason=reason
+        )
+
+        my_request = MyRequest(
+            student_id=studentId,
+            request_id=formatted_request_id,
+            status="Pending..."
+        )
+
+        db.session.add(request_obj)
+        db.session.add(my_request)
+        db.session.commit()
+
+        flash(f'Request submitted successfully! Your Request ID: {formatted_request_id}', 'success')
         return redirect(url_for('index'))
     return None
 
@@ -200,7 +251,18 @@ def available_rooms(floor):
     room_numbers = [room.room_number for room in rooms]
     return jsonify({'rooms': room_numbers})
 
+@app.route('/requests')
+@login_required
+def requests():
+    _requests = Requests.query.order_by(Requests.submitted_at.desc()).all()
+    return render_template('requests.html', requests=_requests)
 
+@app.route('/my-request')
+@login_required
+def my_request():
+    _myrequest = MyRequest.query.filter_by(student_id=current_user.userid).first()
+    _request = Requests.query.filter_by(student_id=current_user.userid).order_by(Requests.id.desc()).first()
+    return render_template('my_request.html', my_request=_myrequest, request=_request)
 
 def admin_db():
     with app.app_context():
