@@ -43,10 +43,38 @@
     <label for="date">신청날짜</label>
     <input type="date" id="date" name="date" value="{{ date }}" required readonly/>
 
-    <label for="room">호실 선택</label>
-    <select id="room" name="room" required>
-      <option value="330" >330</option>
-    </select>
+    <!-- Qavat tanlash -->
+<label for="floorSelect">층 선택</label>
+<select id="floorSelect" name="floor">
+  <option value="">층 선택</option>
+  {% for f in floors %}
+    <option value="{{ f }}">{{ f }}층</option>
+  {% endfor %}
+</select>
+
+<!-- Xona tanlash -->
+<label for="room">호실</label>
+<select id="room" name="room" required>
+  <option value="">호실 선택</option>
+</select>
+
+<script>
+document.getElementById('floorSelect').addEventListener('change', function() {
+  const floor = this.value;
+  fetch(`/available_rooms/${floor}`)
+    .then(response => response.json())
+    .then(data => {
+      const roomSelect = document.getElementById('room');
+      roomSelect.innerHTML = '<option value="">호실 선택</option>';
+      data.rooms.forEach(room => {
+        const option = document.createElement('option');
+        option.value = room;
+        option.text = `${room}호`;
+        roomSelect.add(option);
+      });
+    });
+});
+</script>
 
     <input type="hidden" name="step" value="2" />
     <button type="submit">다음</button>

@@ -4,7 +4,7 @@ import datetime
 
 today = datetime.date.today().isoformat()
 
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -104,16 +104,19 @@ def logout():
 @app.route('/checkin', methods=['GET', 'POST'])
 @login_required
 def checkin():
-    if request.method == "GET":
-        return render_template('checkout.html', step=1)
+    floors = db.session.query(Room.floor).distinct().all()
+    floors = sorted([f[0] for f in floors])
+
+    if request.method == 'GET':
+        return render_template('checkin.html', step=1, floors=floors)
 
     step = int(request.form.get('step', 1))
 
     if step == 1:
-        return render_template('checkin.html', step=2, date=today)
+        return render_template('checkin.html', step=2,floors=floors,date=today)
     elif step == 2:
         room = request.form['room']
-        return render_template('checkin.html', step=3,room=room,date=today)
+        return render_template('checkin.html', step=3,floors=floors,room=room,date=today)
     elif step == 3:
         name = request.form['name']
         studentId = request.form['studentId']
@@ -186,8 +189,16 @@ def room_status():
     )
 
 @app.route('/students-list')
+@login_required
 def students_list():
     return render_template("studentsList.html")
+
+@app.route('/available_rooms/<int:floor>')
+@login_required
+def available_rooms(floor):
+    rooms = Room.query.filter_by(floor=floor, is_occupied=False).all()
+    room_numbers = [room.room_number for room in rooms]
+    return jsonify({'rooms': room_numbers})
 
 
 
