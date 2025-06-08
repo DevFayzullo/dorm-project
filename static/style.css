@@ -153,6 +153,18 @@ tr:hover {
 }
 
 /* Button Groups */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0; /* inline 간 여백 제거 */
+}
+
+.button-group .btn {
+  font-size: 1rem; /* 다시 글씨 크기 설정 */
+  display: inline-block; /* 혹시 몰라 명시 */
+}
+
 .btn-group {
   display: flex;
   justify-content: center;
@@ -166,6 +178,7 @@ tr:hover {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
 /* Button Styles */
@@ -203,6 +216,32 @@ tr:hover {
 
 .btn.info:hover {
   background-color: #d97706;
+}
+
+.btn.warning {
+  background-color: #f0ad4e;
+  color: white;
+}
+.btn.warning:hover {
+  background-color: #ec971f;
+}
+
+.btn.danger {
+  background-color: #d9534f;
+  color: white;
+}
+.btn.danger:hover {
+  background-color: #c9302c;
+}
+
+.btn.dark {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+.btn.dark:hover {
+  background-color: #23272b;
+  color: #ffffff;
 }
 
 /* Modal */

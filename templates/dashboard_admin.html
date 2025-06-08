@@ -26,48 +26,61 @@
       crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="sidebar">
-      <h2>KBU Dormitory</h2>
-      <nav>
-        <!--        <a href="dashboard_admin.html">📊 대시보드</a>-->
-        <a href="{{ url_for('room_status') }}">🏠 빈방 확인</a>
-        <a href="{{ url_for('students_list') }}">👤 학생 관리</a>
-        <a href="{{ url_for('logout') }}">🔒 로그아웃</a>
-      </nav>
+    <header class="main-header">
+      <h1>📊 관리자 대시보드</h1>
+      <p>시스템 요약 정보입니다:</p>
+    </header>
+
+    <main class="form-container">
+      <center>
+        <h2>무엇을 하시겠습니까?</h2>
+        <br /><br />
+        <div class="button-group">
+          <a href="{{ url_for('login') }}" class="btn primary">{{ text }}</a
+          ><!--
+      --><a href="{{ url_for('room_status') }}" class="btn info">🏠 빈방 확인</a
+          ><!--
+      --><a href="{{ url_for('checkin') }}" class="btn secondary"
+            >📝 입실 신청</a
+          ><!--
+      --><a href="{{ url_for('checkout') }}" class="btn tertiary"
+            >🏃‍♂️ 퇴실 신청</a
+          ><!--
+      --><a href="{{ url_for('requests') }}" class="btn danger">📋 신청 관리</a
+          ><!--
+      --><a href="{{ url_for('logout') }}" class="btn dark">🔒 로그아웃</a>
+        </div>
+      </center>
+    </main>
+
+    <div class="dashboard-cards">
+      <!--        <div class="card">-->
+      <!--          <h3>총 등록 학생 수</h3>-->
+      <!--          <p>128명</p>-->
+      <!--        </div>-->
+      <!--        <div class="card">-->
+      <!--          <h3>현재 입실 중</h3>-->
+      <!--          <p>97명</p>-->
+      <!--        </div>-->
+      <!--        <div class="card">-->
+      <!--          <h3>빈방 수</h3>-->
+      <!--          <p>22호</p>-->
+      <!--        </div>-->
+      <!--        <div class="card">-->
+      <!--          <h3>대기 중 신청</h3>-->
+      <!--          <p>9건</p>-->
+      <!--        </div>-->
     </div>
+    <br /><br />
+    <p style="text-align: center; margin-top: 20px">
+      <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+    </p>
 
-    <div class="main">
-      <header class="main-header">
-        <h1>📊 관리자 대시보드</h1>
-        <p>시스템 요약 정보입니다:</p>
-      </header>
-
-      <div class="dashboard-cards">
-        <!--        <div class="card">-->
-        <!--          <h3>총 등록 학생 수</h3>-->
-        <!--          <p>128명</p>-->
-        <!--        </div>-->
-        <!--        <div class="card">-->
-        <!--          <h3>현재 입실 중</h3>-->
-        <!--          <p>97명</p>-->
-        <!--        </div>-->
-        <!--        <div class="card">-->
-        <!--          <h3>빈방 수</h3>-->
-        <!--          <p>22호</p>-->
-        <!--        </div>-->
-        <!--        <div class="card">-->
-        <!--          <h3>대기 중 신청</h3>-->
-        <!--          <p>9건</p>-->
-        <!--        </div>-->
+    <footer class="main-footer bg-dark text-light text-center py-4 mt-5">
+      <div class="container">
+        <strong>© 2025 Dormitory Management System</strong><br />
+        <small>All rights reserved.</small>
       </div>
-      <br /><br />
-      <p style="text-align: center; margin-top: 20px">
-        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
-      </p>
-    </div>
-
-    <footer class="main-footer">
-      © 2025 Dormitory Management System - All rights reserved.
     </footer>
   </body>
 </html>

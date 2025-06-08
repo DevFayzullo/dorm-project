@@ -29,15 +29,11 @@
         margin: 0;
         padding: 0;
         height: 100vh;
-        background: url("{{ url_for('static', filename='campus_bg.jpeg') }}")
-          no-repeat center center fixed;
-        background-size: cover;
         font-family: "Segoe UI", sans-serif;
       }
 
       .main-header {
         text-align: center;
-        color: #003366;
         padding-top: 30px;
       }
 
@@ -103,10 +99,6 @@
   </head>
   <body>
     <header class="main-header">
-      <img
-        src="{{ url_for('static', filename='kbu_logo.png') }}"
-        alt="KBU 로고"
-        style="max-height: 80px; margin-bottom: 10px" />
       <h1>🔐 로그인</h1>
       <p>경복대학교 기숙사 로그인 포털</p>
     </header>
@@ -144,8 +136,11 @@
       </p>
     </main>
 
-    <footer class="main-footer">
-      © 2025 경복대학교 Dormitory Management System - All rights reserved.
+    <footer class="main-footer bg-dark text-light text-center py-4 mt-5">
+      <div class="container">
+        <strong>© 2025 Dormitory Management System</strong><br />
+        <small>All rights reserved.</small>
+      </div>
     </footer>
   </body>
 </html>

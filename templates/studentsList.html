@@ -27,19 +27,20 @@
   </head>
   <body>
     <header>
-      <h1>👨‍🎓 학생 관리</h1>
+      <h1 class="text-center my-4">👨‍🎓 학생 관리</h1>
     </header>
 
-    <div class="search-container" style="text-align: center; margin: 20px 0">
+    <div class="search-container text-center mb-4">
       <input
         type="text"
         id="studentSearch"
         placeholder="학번을 입력하세요"
-        class="form-control"
-        style="max-width: 300px; display: inline-block" />
+        class="form-control d-inline-block"
+        style="max-width: 300px" />
+      <button id="searchBtn" class="btn btn-primary ml-2">검색</button>
     </div>
 
-    <div class="table-container">
+    <div class="table-container container">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
@@ -64,30 +65,43 @@
           </tr>
         </tbody>
       </table>
-      <p style="text-align: center; margin-top: 20px">
+      <p class="text-center mt-4">
         <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기 </a>
       </p>
     </div>
 
-    <footer class="main-footer" style="text-align: center; margin-top: 40px">
-      © 2025 Dormitory Management System - All rights reserved.
+    <footer class="main-footer bg-dark text-light text-center py-4 mt-5">
+      <div class="container">
+        <strong>© 2025 Dormitory Management System</strong><br />
+        <small>All rights reserved.</small>
+      </div>  
     </footer>
 
     <script>
+      function filterTable() {
+        const filter = document.getElementById("studentSearch").value.trim();
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach((row) => {
+          const studentId = row.cells[1].textContent;
+          if (studentId.includes(filter)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
+
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", filterTable);
+
       document
         .getElementById("studentSearch")
-        .addEventListener("keyup", function () {
-          const filter = this.value.trim();
-          const rows = document.querySelectorAll("tbody tr");
-
-          rows.forEach((row) => {
-            const studentId = row.cells[1].textContent;
-            if (studentId.includes(filter)) {
-              row.style.display = "";
-            } else {
-              row.style.display = "none";
-            }
-          });
+        .addEventListener("keyup", function (e) {
+          if (e.key === "Enter") {
+            filterTable();
+          }
         });
     </script>
   </body>

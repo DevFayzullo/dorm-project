@@ -42,21 +42,27 @@
             style="margin-right: 3px">
             {{ text }}
           </a>
-          <a href="{{ url_for('room_status') }}" class="btn info"
-            >🏠 빈방 확인</a
-          >
-          <a href="{{ url_for('checkin') }}" class="btn secondary"
-            >📝 입실 신청</a
-          >
-          <a href="{{ url_for('checkout') }}" class="btn tertiary"
-            >🏃‍♂️ 퇴실 신청</a
-          >
+          <a href="{{ url_for('room_status') }}" class="btn info">
+            🏠 빈방 확인
+          </a>
+          <a href="{{ url_for('checkin') }}" class="btn secondary">
+            📝 입실 신청
+          </a>
+          <a href="{{ url_for('checkout') }}" class="btn tertiary">
+            🏃‍♂️ 퇴실 신청
+          </a>
+          <a href="{{ url_for('my_request') }}" class="btn warning">
+            📋 내 신청내역
+          </a>
         </div>
       </center>
     </main>
 
-    <footer class="main-footer">
-      © 2025 Dormitory Management System - All rights reserved.
+    <footer class="main-footer bg-dark text-light text-center py-4 mt-5">
+      <div class="container">
+        <strong>© 2025 Dormitory Management System</strong><br />
+        <small>All rights reserved.</small>
+      </div>
     </footer>
   </body>
 </html>

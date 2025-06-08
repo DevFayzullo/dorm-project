@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-{% if my_request and request %}
-<h2>{{ my_request.request_type }} 신청 목록</h2>
-<p>{{ my_request.request_id }}</p>
-<p>{{ my_request.status }}</p>
+  </head>
+  <body>
+    {% if my_request and request %}
+    <h2>{{ my_request.request_type }} 신청 목록</h2>
+    <p>{{ my_request.request_id }}</p>
+    <p>{{ my_request.status }}</p>
 
-<table border="1">
-  <tr>
-    <th>이름</th>
-    <th>학번</th>
-    <th>전화번호</th>
-    <th>호실</th>
-    <th>신청날짜</th>
-    <th>사유</th>
-    <th>신청 시간</th>
-  </tr>
-  <tr>
-    <td>{{ request.student_name }}</td>
-    <td>{{ request.student_id }}</td>
-    <td>{{ request.phone }}</td>
-    <td>{{ request.room_number }}</td>
-    <td>{{ request.checkout_date }}</td>
-    <td>{{ request.reason }}</td>
-    {% if request %}
-    <td>{{ request.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+    <table border="1">
+      <tr>
+        <th>이름</th>
+        <th>학번</th>
+        <th>전화번호</th>
+        <th>호실</th>
+        <th>신청날짜</th>
+        <th>사유</th>
+        <th>신청 시간</th>
+      </tr>
+      <tr>
+        <td>{{ request.student_name }}</td>
+        <td>{{ request.student_id }}</td>
+        <td>{{ request.phone }}</td>
+        <td>{{ request.room_number }}</td>
+        <td>{{ request.checkout_date }}</td>
+        <td>{{ request.reason }}</td>
+        {% if request %}
+        <td>{{ request.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        {% else %}
+        <td>No time found</td>
+        {% endif %}
+      </tr>
+    </table>
+    <form method="POST">
+      <input type="hidden" name="delete" value="delete" />
+      <button type="submit">🗑️ 삭제 🗑</button>
+      <!--<button type="submit" onclick="window.location.href='/my-request?delete=delete'">-->
+
+      <!--</button>-->
+    </form>
     {% else %}
-    <td>No time found</td>
+    <p>No requests...!</p>
     {% endif %}
-  </tr>
-</table>
-<form method="POST">
-    <input type="hidden" name="delete" value="delete" />
-    <button type="submit">🗑️ 삭제 🗑</button>
-<!--<button type="submit" onclick="window.location.href='/my-request?delete=delete'">-->
-
-<!--</button>-->
-</form>
-{% else %}
-<p>No requests...!</p>
-{% endif %}
-</body>
+  </body>
 </html>

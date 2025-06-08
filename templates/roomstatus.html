@@ -4,11 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>빈방 확인 - Dormitory System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous" />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
   </head>
   <body>
     <header class="main-header">
@@ -16,45 +31,48 @@
       <p>현재 이용 가능한 기숙사 호실 현황</p>
     </header>
 
-<main class="form-container">
-  <form method="GET" action="{{ url_for('room_status') }}">
-    <label for="floor-select"><strong>🔽 층 선택:</strong></label>
-    <select id="floor-select" name="floor" onchange="this.form.submit()">
-      {% if selected_floor %}
-        <option selected disabled>{{ selected_floor }}층</option>
-      {% else %}
-        <option selected disabled>층을 선택하세요</option>
-      {% endif %}
-      {% for fl in range(2, 8) %}
-        <option value="{{ fl }}">{{ fl }}층</option>
-      {% endfor %}
-    </select>
-  </form>
+    <main class="form-container">
+      <form method="GET" action="{{ url_for('room_status') }}">
+        <label for="floor-select"><strong>🔽 층 선택:</strong></label>
+        <select id="floor-select" name="floor" onchange="this.form.submit()">
+          {% if selected_floor %}
+          <option selected disabled>{{ selected_floor }}층</option>
+          {% else %}
+          <option selected disabled>층을 선택하세요</option>
+          {% endif %} {% for fl in range(2, 8) %}
+          <option value="{{ fl }}">{{ fl }}층</option>
+          {% endfor %}
+        </select>
+      </form>
 
-  {% if rooms %}
-    <div class="room-grid">
-      {% for room in rooms %}
-        <div class="room {{ 'occupied' if room in occupied_rooms else 'available' }}">
-          {{ room }}호<br>{{ "🔴" if room in occupied_rooms else "🟢" }}
+      {% if rooms %}
+      <div class="room-grid">
+        {% for room in rooms %}
+        <div
+          class="room {{ 'occupied' if room in occupied_rooms else 'available' }}">
+          {{ room }}호<br />{{ "🔴" if room in occupied_rooms else "🟢" }}
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <br><br>
-    <center>데이터 없음!</center>
-  {% endif %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <br /><br />
+      <center>데이터 없음!</center>
+      {% endif %}
 
-  <div class="legend">
-    <p>🟢 사용 가능 | 🔴 사용 중</p>
-  </div>
+      <div class="legend">
+        <p>🟢 사용 가능 | 🔴 사용 중</p>
+      </div>
 
-  <p style="text-align: center; margin-top: 20px">
-    <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
-  </p>
-</main>
+      <p style="text-align: center; margin-top: 20px">
+        <a href="{{ url_for('index') }}">← 메인 페이지로 돌아가기</a>
+      </p>
+    </main>
 
-    <footer class="main-footer">
-      © 2025 Dormitory Management System - All rights reserved.
+    <footer class="main-footer bg-dark text-light text-center py-4 mt-5">
+      <div class="container">
+        <strong>© 2025 Dormitory Management System</strong><br />
+        <small>All rights reserved.</small>
+      </div>
     </footer>
   </body>
 </html>
