@@ -5,6 +5,7 @@
     <title>Title</title>
   </head>
   <body>
+  {% if requests %}
     <h2>퇴실 신청 목록</h2>
     <table border="1">
       <tr>
@@ -28,5 +29,8 @@
       </tr>
       {% endfor %}
     </table>
+    {% else %}
+    <p>No requests...!</p>
+    {% endif %}
   </body>
 </html>
