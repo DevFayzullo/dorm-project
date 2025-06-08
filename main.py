@@ -82,6 +82,7 @@ def already(user_id):
     return (Requests.query.filter_by(student_id=user_id).first() is not None or MyRequest.query.filter_by(student_id=user_id).first() is not None)
 
 @app.route('/')
+@login_required
 def index():
     if current_user.is_authenticated and current_user.admin:text = "📊 관리자 대시보드"
     elif current_user.is_authenticated and not current_user.admin:text = "👨‍🎓 학생 대시보드"
@@ -343,11 +344,10 @@ def admin_db():
         else:
             print("Admin user already exists.")
 
-# asgi_app = WsgiToAsgi(app)
+asgi_app = WsgiToAsgi(app)
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    admin_db()
-    app.run(host="0.0.0.0")
-
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
+#     admin_db()
+#     app.run(host="0.0.0.0")
