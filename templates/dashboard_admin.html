@@ -33,7 +33,13 @@
 
     <main class="form-container">
       <center>
-        <h2>무엇을 하시겠습니까?</h2>
+      <div class="card">
+        <h2>관리자 정보</h2>
+        <br>
+        <p><strong>이름:</strong> {{ current_user.full_name }}</p>
+        <p><strong>학번:</strong> {{ current_user.userid }}</p>
+        <p><strong>역할:</strong>관리자🛡️</p>
+      </div>
         <br /><br />
         <div class="button-group">
       --><a href="{{ url_for('requests') }}" class="btn danger">📋 신청 관리</a
