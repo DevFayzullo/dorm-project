@@ -42,16 +42,15 @@
     <main class="form-container">
       <div class="card">
         <h2>학생 정보</h2>
-        <p><strong>이름:</strong> 김민수</p>
-        <p><strong>학번:</strong> 20251234</p>
+        <p><strong>이름:</strong> {{ current_user.full_name }}</p>
+        <p><strong>학번:</strong> {{ current_user.userid }}</p>
         <p><strong>상태:</strong> ✅ 입실 중</p>
       </div>
 
       <div class="card">
         <h2>기숙사 정보</h2>
-        <p><strong>호실:</strong> 203호</p>
-        <p><strong>입실일:</strong> 2025-03-01</p>
-        <p><strong>퇴실 예정일:</strong> 2025-06-30</p>
+        <p><strong>호실:</strong> {{ current_user.room }}호</p>
+        <p><strong>입실일:</strong> 2022-08-29</p>
       </div>
       <br><br />
       <p style="text-align: center; margin-top: 20px">
