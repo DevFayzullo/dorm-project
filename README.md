@@ -29,7 +29,7 @@
 - `/dashboard_admin` – 관리자 대시보드
 - `/checkin`, `/checkout` – 입퇴실 처리 페이지
 - `/roomstatus`, `/studentsList` – 방 상태 및 전체 학생 목록
-- `/my_requests`, `/requests` – 신청 내역
+- `/my_request`, `/requests` – 신청 내역
 
 ---
 
