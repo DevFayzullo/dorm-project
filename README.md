@@ -9,13 +9,11 @@
 ## 📌 주요 기능
 
 ### 👨‍🎓 학생
-
 - 로그인 후 대시보드에서 본인 정보 확인
 - 입실 상태 확인 및 퇴실 신청
 - 프로필 접근
 
 ### 🛠️ 관리자
-
 - 전체 학생 목록 확인
 - 학생 입실 / 퇴실 처리
 - 방 상태 관리
@@ -23,7 +21,6 @@
 ---
 
 ## 🖼️ 화면 구성
-
 - `/login` – 역할(학생/관리자) 선택 로그인 화면
 - `/dashboard_student` – 학생 대시보드
 - `/dashboard_admin` – 관리자 대시보드
@@ -34,7 +31,6 @@
 ---
 
 ## 🛠️ 기술 스택
-
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Python Flask
 - **Template Engine**: Jinja2
@@ -43,7 +39,6 @@
 ---
 
 ## 🧱 폴더 구조
-
 ```
 dorm-project/
 ├── static/
@@ -57,46 +52,41 @@ dorm-project/
 │   ├── roomstatus.html
 │   ├── studentsList.html
 │   ├── 404.html
-│   ├── my_requests.html
+│   ├── my_request.html
 │   └── requests.html
 ├── main.py                     # Flask 애플리케이션 엔트리포인트
-├── pyvenv.cfg                 # 가상환경 설정
-├── requirements.txt           # 설치 패키지 목록
+├── pyvenv.cfg                  # 가상환경 설정
+├── requirements.txt            # 설치 패키지 목록
 └── README.md
 ```
 
 ---
 
 ## 🚀 실행 방법
-
 1. 가상환경 실행 (선택)
-
 ```bash
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate  # 또는 venv\Scripts\activate (Windows)
 ```
 
 2. 필요한 패키지 설치
-
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Flask 앱 실행
-
 ```bash
 python main.py
 ```
 
 4. 브라우저에서 확인
-
 ```
 http://localhost:5000
+또는 배포 도메인: http://dorm-kbu.kr
 ```
 
 ---
 
 ## 🙋‍♂️ 제작자
-
-- 프론트엔드: [DevFayzullo]
-- 백엔드: [MuzaffarSharofitdinov]
+- 프론트엔드: DevFayzullo
+- 백엔드: MuzaffarSharofitdinov
