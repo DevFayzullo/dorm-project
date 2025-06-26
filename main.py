@@ -1,9 +1,6 @@
+import datetime
 import logging
 import os
-import datetime
-from os import abort
-
-from sqlalchemy.sql import Delete
 
 today = datetime.date.today().isoformat()
 
@@ -23,7 +20,7 @@ app = Flask(__name__)
 secret_key = 'cdd303f0-d70a-4e36-a9f7-f94a14b59942'
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:postgres@15.165.159.179:5432/dorm'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://avnadmin:AVNS_QHbuDuXH6nTNUi9IvFo@postgres-smartboy.h.aivencloud.com:26207/dorm?sslmode=require'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://avnadmin:AVNS_QHbuDuXH6nTNUi9IvFo@postgres-smartboy.h.aivencloud.com:26207/dorm?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = secret_key
 
