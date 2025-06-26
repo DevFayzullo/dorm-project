@@ -20,6 +20,7 @@ app = Flask(__name__)
 secret_key = 'cdd303f0-d70a-4e36-a9f7-f94a14b59942'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://avnadmin:AVNS_QHbuDuXH6nTNUi9IvFo@postgres-smartboy.h.aivencloud.com:26207/dorm?sslmode=require'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://<username>:<password>@<host>:<port>/<database>'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = secret_key
 
