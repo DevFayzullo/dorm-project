@@ -22,7 +22,8 @@ app = Flask(__name__)
 
 secret_key = 'cdd303f0-d70a-4e36-a9f7-f94a14b59942'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:postgres@15.165.159.179:5432/dorm'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:postgres@15.165.159.179:5432/dorm'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://avnadmin:AVNS_QHbuDuXH6nTNUi9IvFo@postgres-smartboy.h.aivencloud.com:26207/dorm?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = secret_key
 
@@ -164,7 +165,7 @@ def checkin():
         last_request = db.session.query(func.max(Requests.request_id)).scalar()
 
         if last_request:
-            new_id = int(last_request) + 1
+            new_id = int(last_request[4:]) + 1
         else:
             new_id = 1
 
@@ -357,10 +358,10 @@ def admin_db():
         else:
             print("Admin user already exists.")
 
-# asgi_app = WsgiToAsgi(app)
+asgi_app = WsgiToAsgi(app)
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    admin_db()
-    app.run(host="0.0.0.0")
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
+#     admin_db()
+#     app.run(host="0.0.0.0")
