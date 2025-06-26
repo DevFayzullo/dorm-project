@@ -44,12 +44,24 @@
         <h2>학생 정보</h2>
         <p><strong>이름:</strong> {{ current_user.full_name }}</p>
         <p><strong>학번:</strong> {{ current_user.userid }}</p>
-        <p><strong>상태:</strong> ✅ 입실 중</p>
+        <p><strong>상태:</strong>
+          {% if current_user.room %}
+          ✅ 입실 중
+          {% else%}
+          ❌ 입실하지 않음
+          {% endif %}
+        </p>
       </div>
 
       <div class="card">
         <h2>기숙사 정보</h2>
-        <p><strong>호실:</strong> {{ current_user.room }}호</p>
+        <p><strong>호실:</strong>
+          {% if current_user.room %}
+          {{ current_user.room }}호
+          {% else%}
+          데이터 없읍!
+          {% endif %}
+        </p>
         <p><strong>입실일:</strong> 2022-08-29</p>
       </div>
       <br><br />
