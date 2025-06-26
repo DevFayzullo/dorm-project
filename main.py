@@ -134,6 +134,9 @@ def checkin():
     if already(current_user.userid):
         return redirect(url_for("index"))
 
+    if current_user.room:
+        return redirect(url_for("index"))
+
     if request.method == 'GET':
         return render_template('checkin.html', step=1, floors=floors)
 
@@ -200,6 +203,9 @@ def checkin():
 def checkout():
 
     if already(current_user.userid):
+        return redirect(url_for("index"))
+
+    if not current_user.room:
         return redirect(url_for("index"))
 
     if request.method == "GET":
@@ -344,10 +350,36 @@ def admin_db():
         else:
             print("Admin user already exists.")
 
-# asgi_app = WsgiToAsgi(app)
+asgi_app = WsgiToAsgi(app)
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    admin_db()
-    app.run(host="0.0.0.0")
+# def generate_rooms():
+#     rooms = []
+#
+#     for floor in range(2, 8):
+#         if floor == 2:
+#             capacity = 1
+#         elif floor == 7:
+#             capacity = 3
+#         else:
+#             capacity = 2
+#
+#         for room_num in range(1, 16):
+#             room_number = f"{floor}{str(room_num).zfill(2)}"
+#             room = Room(
+#                 room_number=room_number,
+#                 floor=floor,
+#                 capacity=capacity,
+#                 current_occupants=0
+#             )
+#             rooms.append(room)
+#
+#     db.session.add_all(rooms)
+#     db.session.commit()
+#     print("✅ Xonalar bazaga muvaffaqiyatli qo‘shildi.")
+
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
+#     admin_db()
+#     # generate_rooms()
+#     app.run(host="0.0.0.0")
