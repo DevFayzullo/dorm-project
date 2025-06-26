@@ -108,7 +108,7 @@
             .getElementById("floorSelect")
             .addEventListener("change", function () {
               const floor = this.value;
-              fetch(`/available_rooms/${floor}`)
+              fetch(`/room-status/${floor}`)
                 .then((response) => response.json())
                 .then((data) => {
                   const roomSelect = document.getElementById("room");

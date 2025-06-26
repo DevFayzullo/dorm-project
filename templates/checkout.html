@@ -136,9 +136,7 @@
         <p><strong>신청날짜:</strong> {{ date }}</p>
 
         <label for="reason">퇴실 사유</label>
-        <textarea id="reason" name="reason" rows="4" required>
-{{ reason or '' }}</textarea
-        >
+        <textarea id="reason" name="reason" rows="4" required>{{ reason or '' }}</textarea>
 
         <input type="hidden" name="step" value="3" />
         <br /><br />

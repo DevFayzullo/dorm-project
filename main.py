@@ -278,6 +278,13 @@ def dashboard_admin():
     if current_user.admin: return render_template("dashboard_admin.html")
     else: return redirect(url_for('dashboard_student'))
 
+@app.route('/room-status/<int:floor>')
+@login_required
+def available_rooms(floor):
+    rooms = Room.query.filter_by(floor=floor).filter(Room.current_occupants < Room.capacity).all()
+    room_numbers = [room.room_number for room in rooms]
+    return jsonify({'rooms': room_numbers})
+
 @app.route('/room-status', methods=['GET'])
 @login_required
 def room_status():
@@ -296,17 +303,17 @@ def room_status():
         occupied_rooms=occupied_rooms
     )
 
-@app.route('/students-list')
+@app.route('/students-list', methods=['GET'])
 @login_required
 def students_list():
-    return render_template("studentsList.html")
+    userid = request.args.get('userid')  # qidiruv inputidan
+    user = None
+    if userid:
+        user = User.query.filter_by(userid=userid).first()
+    return render_template("studentsList.html", user=user)
 
-@app.route('/available_rooms/<int:floor>')
-@login_required
-def available_rooms(floor):
-    rooms = Room.query.filter_by(floor=floor).filter(Room.current_occupants < Room.capacity).all()
-    room_numbers = [room.room_number for room in rooms]
-    return jsonify({'rooms': room_numbers})
+
+
 
 @app.route('/requests')
 @login_required
