@@ -2,15 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>신청 상세 보기</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 20px;
+      }
+      h2 {
+        text-align: center;
+        color: #2f3640;
+      }
+      p {
+        text-align: center;
+        font-size: 18px;
+        color: #353b48;
+        margin: 5px;
+      }
+      table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 90%;
+        max-width: 600px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      th,
+      td {
+        border: 1px solid #dcdde1;
+        padding: 12px 15px;
+        text-align: center;
+      }
+      th {
+        background-color: #273c75;
+        color: #ffffff;
+      }
+      tr:nth-child(even) {
+        background-color: #f0f3f5;
+      }
+      tr:hover {
+        background-color: #dcdde1;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      button {
+        background-color: #e84118;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #c23616;
+      }
+      .no-requests {
+        text-align: center;
+        font-size: 18px;
+        color: #718093;
+        margin-top: 40px;
+      }
+    </style>
   </head>
   <body>
     {% if my_request and request %}
-    <h2>{{ my_request.request_type }} 신청 목록</h2>
-    <p>{{ my_request.request_id }}</p>
-    <p>{{ my_request.status }}</p>
+    <h2>{{ my_request.request_type }} 신청 상세</h2>
+    <p>신청 ID: {{ my_request.request_id }}</p>
+    <p>상태: {{ my_request.status }}</p>
 
-    <table border="1">
+    <table>
       <tr>
         <th>이름</th>
         <th>학번</th>
@@ -27,22 +93,20 @@
         <td>{{ request.room_number }}</td>
         <td>{{ request.checkout_date }}</td>
         <td>{{ request.reason }}</td>
-        {% if request %}
-        <td>{{ request.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
-        {% else %}
-        <td>No time found</td>
-        {% endif %}
+        <td>
+          {% if request.submitted_at %} {{
+          request.submitted_at.strftime('%Y-%m-%d %H:%M') }} {% else %} No time
+          found {% endif %}
+        </td>
       </tr>
     </table>
+
     <form method="POST">
       <input type="hidden" name="delete" value="delete" />
-      <button type="submit">🗑️ 삭제 🗑</button>
-      <!--<button type="submit" onclick="window.location.href='/my-request?delete=delete'">-->
-
-      <!--</button>-->
+      <button type="submit">🗑️ 신청 삭제</button>
     </form>
     {% else %}
-    <p>No requests...!</p>
+    <p class="no-requests">현재 신청 내역이 없습니다.</p>
     {% endif %}
   </body>
 </html>

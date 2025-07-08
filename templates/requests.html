@@ -2,12 +2,52 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>퇴실 신청 목록</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 20px;
+      }
+      h2 {
+        text-align: center;
+        color: #2f3640;
+      }
+      table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 90%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      th,
+      td {
+        border: 1px solid #dcdde1;
+        padding: 12px 15px;
+        text-align: center;
+      }
+      th {
+        background-color: #273c75;
+        color: #ffffff;
+      }
+      tr:nth-child(even) {
+        background-color: #f0f3f5;
+      }
+      tr:hover {
+        background-color: #dcdde1;
+      }
+      p {
+        text-align: center;
+        font-size: 18px;
+        color: #718093;
+      }
+    </style>
   </head>
   <body>
-  {% if requests %}
+    {% if requests %}
     <h2>퇴실 신청 목록</h2>
-    <table border="1">
+    <table>
       <tr>
         <th>이름</th>
         <th>학번</th>
@@ -30,7 +70,7 @@
       {% endfor %}
     </table>
     {% else %}
-    <p>No requests...!</p>
+    <p>현재 퇴실 신청이 없습니다.</p>
     {% endif %}
   </body>
 </html>
