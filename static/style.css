@@ -14,9 +14,9 @@ body {
 }
 
 a {
-  color: #007bff; /* Blue link color */
-  text-decoration: none; /* Removes underline */
-  font-weight: bold; /* Makes it bold */
+  color: #007bff;
+  text-decoration: none; 
+  font-weight: bold;
 }
 
 /* Header */
@@ -157,12 +157,12 @@ tr:hover {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 0; /* inline 간 여백 제거 */
+  font-size: 0;
 }
 
 .button-group .btn {
-  font-size: 1rem; /* 다시 글씨 크기 설정 */
-  display: inline-block; /* 혹시 몰라 명시 */
+  font-size: 1rem; 
+  display: inline-block;
 }
 
 .btn-group {
