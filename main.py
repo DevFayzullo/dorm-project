@@ -232,7 +232,7 @@ def checkout():
         last_request = db.session.query(func.max(Requests.request_id)).scalar()
 
         if last_request:
-            new_id = int(last_request) + 1
+            new_id = int(last_request[4:]) + 1
         else:
             new_id = 1
 
