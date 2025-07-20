@@ -1,106 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>신청 상세 보기</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}" />
     <style>
+      .detail-wrapper {
+        max-width: 960px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
       h2 {
         text-align: center;
-        color: #2f3640;
+        color: #1e293b;
       }
+
       p {
         text-align: center;
-        font-size: 18px;
-        color: #353b48;
-        margin: 5px;
+        font-size: 1rem;
+        color: #334155;
+        margin: 0.3rem 0;
       }
+
+      .table-responsive {
+        overflow-x: auto;
+      }
+
       table {
-        margin: 20px auto;
+        margin: 1.5rem auto;
+        width: 100%;
         border-collapse: collapse;
-        width: 90%;
-        max-width: 600px;
-        background-color: #ffffff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        table-layout: auto;
       }
+
       th,
       td {
-        border: 1px solid #dcdde1;
-        padding: 12px 15px;
+        border: 1px solid #e2e8f0;
+        padding: 0.8rem 1rem;
         text-align: center;
+        white-space: nowrap;
       }
+
       th {
-        background-color: #273c75;
-        color: #ffffff;
-      }
-      tr:nth-child(even) {
-        background-color: #f0f3f5;
-      }
-      tr:hover {
-        background-color: #dcdde1;
-      }
-      form {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-      }
-      button {
-        background-color: #e84118;
+        background-color: #3b82f6;
         color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
       }
-      button:hover {
-        background-color: #c23616;
+
+      tr:nth-child(even) {
+        background-color: #f8fafc;
       }
+
+      tr:hover {
+        background-color: #f1f5f9;
+      }
+
+      form {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
       .no-requests {
         text-align: center;
-        font-size: 18px;
-        color: #718093;
+        font-size: 1.1rem;
+        color: #64748b;
         margin-top: 40px;
+      }
+
+      .btn-delete {
+        width: 30%;
+        background-color: #ef4444;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .btn-delete:hover {
+        background-color: #dc2626;
       }
     </style>
   </head>
   <body>
-    {% if my_request and request %}
-    <h2>{{ my_request.request_type }} 신청 상세</h2>
-    <p>신청 ID: {{ my_request.request_id }}</p>
-    <p>상태: {{ my_request.status }}</p>
+    <div class="detail-wrapper">
+      {% if my_request and request %}
+      <h2>{{ my_request.request_type }} 신청 상세</h2>
+      <p>신청 ID: {{ my_request.request_id }}</p>
+      <p>상태: {{ my_request.status }}</p>
 
-    <table>
-      <tr>
-        <th>이름</th>
-        <th>학번</th>
-        <th>전화번호</th>
-        <th>호실</th>
-        <th>신청날짜</th>
-        <th>사유</th>
-        <th>신청 시간</th>
-      </tr>
-      <tr>
-        <td>{{ request.student_name }}</td>
-        <td>{{ request.student_id }}</td>
-        <td>{{ request.phone }}</td>
-        <td>{{ request.room_number }}</td>
-        <td>{{ request.checkout_date }}</td>
-        <td>{{ request.reason }}</td>
-        <td>
-          {% if request.submitted_at %} {{
-          request.submitted_at.strftime('%Y-%m-%d %H:%M') }} {% else %} No time
-          found {% endif %}
-        </td>
-      </tr>
-    </table>
+      <div class="table-responsive">
+        <table>
+          <tr>
+            <th>이름</th>
+            <th>학번</th>
+            <th>전화번호</th>
+            <th>호실</th>
+            <th>신청날짜</th>
+            <th>사유</th>
+            <th>신청 시간</th>
+          </tr>
+          <tr>
+            <td>{{ request.student_name }}</td>
+            <td>{{ request.student_id }}</td>
+            <td>{{ request.phone }}</td>
+            <td>{{ request.room_number }}</td>
+            <td>{{ request.checkout_date }}</td>
+            <td>{{ request.reason }}</td>
+            <td>
+              {% if request.submitted_at %} {{
+              request.submitted_at.strftime('%Y-%m-%d %H:%M') }} {% else %} No
+              time found {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
 
-    <form method="POST">
-      <input type="hidden" name="delete" value="delete" />
-      <button type="submit">🗑️ 신청 삭제</button>
-    </form>
-    {% else %}
-    <p class="no-requests">현재 신청 내역이 없습니다.</p>
-    {% endif %}
+      <form method="POST">
+        <input type="hidden" name="delete" value="delete" />
+        <button type="submit" class="btn-delete">🗑️ 신청 삭제</button>
+      </form>
+      {% else %}
+      <p class="no-requests">현재 신청 내역이 없습니다.</p>
+      {% endif %}
+    </div>
   </body>
 </html>
