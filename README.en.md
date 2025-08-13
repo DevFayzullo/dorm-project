@@ -1,6 +1,6 @@
 # 🏠 KBU Dormitory Check-in/Check-out System
 
-[🇰🇷 한국어 README](./README.kr.md)
+[🇰🇷 한국어 README](./README.md)
 
 A web-based management system designed for students and administrators of the KBU dormitory.  
 Students can check their room and status, request check-out, and view their profile.  
